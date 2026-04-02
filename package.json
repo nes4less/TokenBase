@@ -1,0 +1,20 @@
+{
+  "name": "@tokenbase/core",
+  "version": "0.1.0",
+  "description": "Universal base models for the Token ecosystem",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "files": ["dist"],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  },
+  "dependencies": {
+    "uuid": "^11.1.0"
+  }
+}
