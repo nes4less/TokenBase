@@ -78,3 +78,79 @@ Add observations here as they come up. Anything that refines the model, reveals 
 - **Typeable** as root classification: Person, Place, Thing, Idea, Event, Location, Result, Action, State, Quantity, Rule, Signal. Every entity IS one of these at root. This may reorganize the entire model list into tiered compound base models (Tier 0: types, Tier 1: traits, Tier 2: structural, Tier 3: operational, Tier 4: compound).
 - **Context might absorb Typeable** — Context already carries identity, display, scope, params, metadata. If it also carries the root type, it becomes the universal identity card for any entity. The entity is just data, Context is everything ABOUT it. Design session needed.
 - **Private blockchain pattern.** What we described IS a blockchain — distributed encrypted fragments, zero-knowledge verification, Handshake as key exchange, immutable Log, destruction on revocation. But without public consensus overhead. Only Handshake parties validate. Every Handshake is a contract. Every Log entry is a block. Every MCP is a wallet. Scope hierarchy is the chain of custody. Handshake breaks → chain forks → their branch becomes unreadable. This is the universal currency — not just money, but trust, access, and data itself are the transactable assets.
+- **Token is the unit of exchange.** Everything in the system is a Token — data, access, money, trust, identity, capability. The language compiles Tokens. The blockchain tracks Tokens. The MCP controls Tokens. Token isn't a product name, it's the primitive.
+- **Stable currency model.** User buys in with fiat (USD, EUR, etc.) → pegged Tokens. Everything inside transacts in Tokens. Cash out → Tokens convert back to fiat. Stable peg, not speculative. This is infrastructure, not a casino.
+- **Third-party validators.** Established entities (Amazon, eBay, banks, registrars) serve as proof-of-existence anchors. They don't run the chain — they attest. "Yes, this entity exists. Yes, this transaction happened." Their track record IS the trust. External Handshake parties with read-only verification MCPs.
+- **The full stack rebuild.** Language (how things are defined) → Models (what things are) → Token layer (how things move) → MCP (who can do what) → Validators (who confirms what's real). Every Token project builds a piece. Token Remote = control surface. Token Sports = proof of concept. CashierFu = commerce proof. TokenBase = foundation.
+
+## The Three Missing Infrastructure Pieces
+
+### 1. The Language
+
+The TokenBase language. Optimized for the Token from the ground up. Not a general-purpose language — a language purpose-built for defining, composing, transacting, and verifying Tokens.
+
+**What it compiles:**
+- Model definitions → type-safe structures
+- Compositions → compound models from base primitives
+- Transactions → Token movements with Handshake verification
+- Protocols → enforceable rules with zero-knowledge validation
+- Instructions → executable sequences with gate conditions
+- Styles → output transformations to any target format
+
+**Compilation targets:**
+- Layer 0: Machine primitives (bare metal efficiency)
+- Layer 1: Token language (the tightest expression, where efficiency lives)
+- Layer 2: Generated targets (TypeScript, Swift, Rust, C, SQL, etc.)
+- Layer 3: Adoption (developers write Token directly)
+
+**Key design requirements:**
+- Every base model is a native keyword, not a library import
+- Transactions are first-class (like async/await in JS, but for Token operations)
+- Handshake verification is built into the type system (you can't compile a transaction without a valid Handshake type)
+- Zero-knowledge proofs are a language primitive, not a library
+- The compiler enforces security structurally — insecure patterns don't compile
+
+**Status:** Design phase. The TypeScript models are the working spec for the type system.
+
+### 2. Content Servers
+
+The delivery layer. How Tokens (data, assets, media, compiled output) get served to consumers.
+
+**What they serve:**
+- Compiled application bundles (generated from Token language)
+- Media assets (images, video, documents — through Style transformations)
+- API responses (model data, filtered/sorted/scoped per MCP)
+- Realtime streams (Pub/Sub for live Token movements)
+- Static exports (print-ready, CSV, PDF — Style target outputs)
+- Verification endpoints (zero-knowledge yes/no responses)
+
+**Architecture:**
+- Edge-distributed (content close to consumer)
+- Scope-aware (each server instance only has data for its scope)
+- MCP-gated (requests authenticated against the user's generated MCP)
+- Encrypted in transit and at rest
+- Cache-aware (immutable Tokens can be cached forever, mutable ones invalidate on Log entry)
+
+**Key requirement:** Content servers don't interpret data. They serve Tokens. The MCP determines what a user can request. The Style determines how it's formatted. The server just moves bytes.
+
+### 3. The Databases
+
+Where Tokens live at rest. Not one database — a layered persistence system optimized for different Token types.
+
+**Layers:**
+- **Token ledger** — the blockchain. Immutable. Every Token movement, every Handshake, every Log entry. Append-only. This is the source of truth.
+- **State store** — current state of all entities. Derived from the ledger but optimized for queries. Rebuilt from ledger if corrupted. Think of it as a materialized view of the chain.
+- **Asset store** — binary data (images, files, media). Content-addressed (hash = address). Deduplicated. Encrypted per-scope.
+- **Index store** — search and filter indexes. Generated from state store. Disposable and rebuildable. Optimized for Filter + Sort operations.
+- **Cache layer** — hot data for content servers. Scope-partitioned. Invalidated by Log entries.
+
+**Key design requirements:**
+- The ledger is the only thing that MUST survive. Everything else is derived.
+- The state store is the primary read target (not the ledger — that's too slow for queries)
+- Scope-level encryption means one compromised key only exposes one scope
+- The database understands the model structure natively (not generic tables with JSON columns)
+- Schema is defined by the Token language, not by migration files
+
+**Relationship to language:** The database schema IS the compiled output of Token model definitions. You define a model in the language, the compiler generates the persistence schema. No ORM, no mapping layer, no impedance mismatch.
+
+**Status:** Parked until language design solidifies. The language dictates the database, not the other way around.
