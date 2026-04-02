@@ -218,3 +218,32 @@ Phase 5: Re-abstract Everything
 4. **Key management** — where do Handshake keys live? HSM? Per-user encrypted vault? Ephemeral?
 5. **Typeable + Context** — does Typeable live on Context (making Context the universal identity card) or is it a standalone root? (Design session needed)
 6. **Trait composition** — in the language, are traits mixins, protocols, or something else? How does the compiler enforce trait requirements?
+
+---
+
+## Repo Standard — Required Root Files
+
+Every project built with TokenBase ships with these files at the root. This is the agent onboarding system — an agent drops in cold, reads these, and immediately has full context.
+
+### The Keys to the Castle (always present)
+
+| File | Purpose |
+|---|---|
+| `GOALS.md` | Where we're going. End-state vision. Reference context, not a task. Always in agent context. |
+| `KIT-PLAN.md` | How we're building it. Architecture, decisions, execution order, dependencies. |
+| `INVENTORY.md` | What we have. Complete asset list — models, services, endpoints, screens, whatever applies. |
+
+### The Back of Mind (accumulating)
+
+| File | Purpose |
+|---|---|
+| `LANGUAGE.md` | Long-term vision. Parked ideas, compilation targets, language design insights. Only in projects where relevant. |
+| `IMPROVEMENTS.md` | Patterns noticed, things to refactor, potential base model additions, efficiency gains spotted. Append-only. Every session adds observations. |
+
+### Rules
+
+- Every file starts with `> **This file is reference context, not a task.**`
+- GOALS.md and KIT-PLAN.md are read at the start of every agent session
+- IMPROVEMENTS.md is appended to during every session when something is noticed
+- These files are the **first thing written** when a new project is created from the kit
+- They are the proprietary context layer — the institutional knowledge that makes the repo self-documenting
