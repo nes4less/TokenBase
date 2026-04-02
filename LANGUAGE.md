@@ -1,6 +1,19 @@
 # TokenBase Language — Vision
 
-## The Idea
+## Core Thesis
+
+The system exists to solve three problems:
+
+**1. Convolution** — Too many layers between wanting something and getting it. Every hop is latency, every translation is potential corruption. The language compiles direct paths. The MCP is your exact interface, nothing more. Content servers don't interpret, they deliver.
+
+**2. Data invalidity** — Bad data propagates because nothing enforces truth at the source. Every entry is classified (primary/meta/derived). Every piece has Source and Validity. The ledger is immutable. Zero-knowledge verification confirms without exposing. The system won't accept unvalidated Tokens.
+
+**3. Context loss** — AI works with scraped, partial, stale context. The kit solves this with the repo standard (GOALS, KIT-PLAN, INVENTORY, IMPROVEMENTS), scoped models, classified metadata, and the Improvement pipeline that continuously refines raw data into rules. Context isn't scraped — it's structured, scoped, and always current.
+
+**The workflow:** AI lines it up (composes, queries, transforms, proposes). Humans confirm it (Handshake). Two-way auth on every meaningful action. AI does the volume work with precision because the data is valid and the context is complete. Humans do the judgment work because the options are clear and pre-validated.
+
+**The efficiency goal:** Provide every building block so AI is accurate, efficient, and works with humans on two-way auth. No guessing. No scraping. No stale context. No invalid data. No convolution. Direct paths from intent to result.
+
 
 TokenBase starts as a shared model library. It becomes the type system for a new language. That language compiles from the lowest possible layer up through every existing language.
 
