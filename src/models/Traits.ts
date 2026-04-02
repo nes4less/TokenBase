@@ -114,3 +114,94 @@ export interface Polymorphic {
   entityId: string | null
   entityType: string | null
 }
+
+// ─── Lifespan ───
+
+/** Has a finite lifespan or consumes itself on use. One-time codes, TTL tokens, limited-use coupons. */
+export interface Expirable {
+  expiresAt: string | null
+  maxUses: number | null
+  currentUses: number
+  consumeOnRead: boolean
+  ttl: number | null
+}
+
+// ─── Files ───
+
+/** Can have any file/document attached — type-agnostic. */
+export interface Attachable {
+  attachments: { id: string; url: string; name: string; type: string; size?: number }[]
+}
+
+// ─── Geography ───
+
+/** Has a geographic position with proximity support. */
+export interface Locatable {
+  latitude: number | null
+  longitude: number | null
+  altitude: number | null
+  accuracy: number | null
+  address: string | null
+}
+
+// ─── Permissions ───
+
+/** Has visibility/permission control. */
+export interface Accessible {
+  access: 'public' | 'private' | 'restricted' | 'shared'
+  accessConditions: string | null
+}
+
+// ─── Provenance ───
+
+/** Declares where data came from. */
+export interface Sourceable {
+  sourceType: 'crud' | 'derived' | 'observed' | 'inferred' | 'imported' | 'generated' | null
+  sourceId: string | null
+  sourceParty: 'first' | 'third' | null
+}
+
+/** Declares trust level of data. */
+export interface Validatable {
+  validity: 'verified' | 'unverified' | 'disputed' | 'expired' | null
+  confidence: number | null
+  validFrom: string | null
+  validUntil: string | null
+  verifiedBy: string | null
+}
+
+// ─── Security ───
+
+/** Carries integrity/security fields. */
+export interface Securable {
+  hash: string | null
+  locked: boolean
+  signedBy: string | null
+  signatureKey: string | null
+}
+
+// ─── Substitution ───
+
+/** Declares that entities can substitute for each other. */
+export interface Interchangeable {
+  substitutes: { entityId: string; entityType: string | null; compatibility: 'full' | 'partial' | 'conditional'; bidirectional: boolean }[]
+}
+
+// ─── Navigation ───
+
+/** Can be navigated to via URL, deep link, or path. */
+export interface Linkable {
+  url: string | null
+  deepLink: string | null
+  shortLink: string | null
+  apiPath: string | null
+}
+
+// ─── Classification ───
+
+/** Root abstract noun classification — what category of existence this entity belongs to. */
+export type EntityType = 'person' | 'place' | 'thing' | 'idea' | 'event' | 'location' | 'result' | 'action' | 'state' | 'quantity' | 'rule' | 'signal'
+
+export interface Typeable {
+  entityClassification: EntityType | null
+}

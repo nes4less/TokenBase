@@ -25,11 +25,21 @@ export * from './Style'
 export * from './Unifier'
 
 // ─── Operations ───
+export * from './Async'
+export * from './Filter'
 export * from './Function'
+export * from './Handshake'
+export * from './Log'
+export * from './Prompt'
+export * from './Queue'
+export * from './Sort'
 
 // ─── Financial ───
 export * from './FinancialTerm'
 export * from './Pricing'
+
+// ─── Time ───
+export * from './TimeTerm'
 
 // ─── Commerce ───
 export * from './Business'
