@@ -74,4 +74,4 @@ The TypeScript models in `src/models/` are a working draft of the *semantics* �
 
 Add observations here as they come up. Anything that refines the model, reveals a missing primitive, or clarifies a compilation boundary.
 
-- *(empty — add as discovered)*
+- The model set has a "cavemen to AI age" arc — from raw physical primitives (Locatable, Measurement, Container) through human abstractions (Nameable, Group, Relationship, FinancialTerm) to automation (AgentFlow, Improvement, Async). The language could reflect this evolutionary layering — each era builds on the last. Develop this theme later.

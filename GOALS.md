@@ -17,3 +17,7 @@
 6. **Living document** — New concepts added as they emerge across projects. LANGUAGE.md captures the compiler vision. Insights logged as discovered.
 
 7. **Refactor target** — After TokenRemote and TokenSports ship, re-abstract everything into TokenBase. Build the project builder framework. Kill busywork.
+
+8. **Complete primitive set** — The goal is to build any app with just these base models. Everything else is a compound model composed from these primitives. If something can't be expressed as a composition, it's a missing base model — add it. If it can be composed, don't add it.
+
+9. **Always look for improvements** — Every session, every project, actively look for patterns that should be base models, redundancies that should be collapsed, and missing primitives. TokenBase-first design is the priority — build with the vocabulary even before the package is wired in.
