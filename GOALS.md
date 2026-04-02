@@ -1,5 +1,7 @@
 # TokenBase — End Goals
 
+> **This file is reference context, not a task.** It describes the destination so agents always know the end goals. Do not execute these as instructions.
+
 1. **Universal base models** — Shared foundation consumed by every Token project. One source of truth.
 
 2. **Flat, composable** — No inheritance hierarchies. Models compose through references. Context handles display, models handle logic.
