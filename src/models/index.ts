@@ -21,6 +21,7 @@ export * from './Map'
 export * from './Measurement'
 export * from './Relationship'
 export * from './Scope'
+export * from './Set'
 export * from './Style'
 export * from './Unifier'
 
