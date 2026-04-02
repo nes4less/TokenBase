@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -17,7 +18,7 @@ export class Note {
   id: string
   /** The note content */
   info: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   /** The entity this note is attached to */
   noteableId: string | null
   noteableType: string | null
@@ -30,7 +31,7 @@ export class Note {
     this.deletedAt = data?.deletedAt || null
     this.id = data?.id || generateUUID()
     this.info = data?.info || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.noteableId = data?.noteableId || null
     this.noteableType = data?.noteableType || null
     this.updatedAt = data?.updatedAt || generateDateString()

@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Tag } from './Tag'
 
@@ -48,7 +49,7 @@ export class FlowAgent {
   loopTo: string | null
   /** Position in the flow (ordinal) */
   position: number
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<FlowAgent>) {
     this.id = data?.id || generateUUID()
     this.agentId = data?.agentId || null
@@ -59,7 +60,7 @@ export class FlowAgent {
     this.passTo = data?.passTo || []
     this.loopTo = data?.loopTo || null
     this.position = data?.position ?? 0
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }
 
@@ -83,7 +84,7 @@ export class AgentFlow {
   deletedAt: string | null
   description: string | null
   id: string
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   name: string | null
   /** Refresh interval in seconds (0 = manual trigger only) */
   refreshInterval: number
@@ -100,7 +101,7 @@ export class AgentFlow {
     this.deletedAt = data?.deletedAt || null
     this.description = data?.description || null
     this.id = data?.id || generateUUID()
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.name = data?.name || null
     this.refreshInterval = data?.refreshInterval ?? 0
     this.timeTermId = data?.timeTermId || null

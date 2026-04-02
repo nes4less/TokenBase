@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Tag } from './Tag'
 
@@ -17,7 +18,7 @@ export class Function {
   id: string
   /** Input definitions — what the function accepts */
   inputs: FunctionParam[]
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   name: string | null
   /** The operation type: create, read, update, delete, transform, validate, compute, etc. */
   operation: string
@@ -35,7 +36,7 @@ export class Function {
     this.description = data?.description || null
     this.id = data?.id || generateUUID()
     this.inputs = data?.inputs || []
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.name = data?.name || null
     this.operation = data?.operation || 'transform'
     this.outputs = data?.outputs || []

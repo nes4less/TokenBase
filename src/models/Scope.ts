@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Tag } from './Tag'
 
@@ -22,7 +23,7 @@ export class Scope {
   entityType: string | null
   id: string
   language: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   name: string | null
   parentId: string | null
   regionCode: string | null
@@ -42,7 +43,7 @@ export class Scope {
     this.entityType = data?.entityType || null
     this.id = data?.id || generateUUID()
     this.language = data?.language || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.name = data?.name || null
     this.parentId = data?.parentId || null
     this.regionCode = data?.regionCode || null

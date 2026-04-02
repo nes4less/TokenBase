@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Tag } from './Tag'
 
@@ -16,7 +17,7 @@ export class InstructionStep {
   optional: boolean
   /** Expected duration in milliseconds */
   duration: number | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<InstructionStep>) {
     this.id = data?.id || generateUUID()
     this.action = data?.action || ''
@@ -24,7 +25,7 @@ export class InstructionStep {
     this.condition = data?.condition || null
     this.optional = data?.optional ?? false
     this.duration = data?.duration ?? null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }
 
@@ -54,7 +55,7 @@ export class Instruction {
   createdBy: string | null
   updatedAt: string
   deletedAt: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<Instruction>) {
     this.id = data?.id || generateUUID()
     this.name = data?.name || null
@@ -70,6 +71,6 @@ export class Instruction {
     this.createdBy = data?.createdBy || null
     this.updatedAt = data?.updatedAt || generateDateString()
     this.deletedAt = data?.deletedAt || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }

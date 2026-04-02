@@ -1,3 +1,4 @@
+import { MetadataEntry } from '../models/Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -27,7 +28,7 @@ export class Reader {
   /** The hardware device type */
   deviceType: ReaderDeviceType | null
   id: string
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   /** Stripe Terminal reader ID */
   stripeReaderId: string | null
   title: string | null
@@ -39,7 +40,7 @@ export class Reader {
     this.deletedAt = data?.deletedAt || null
     this.deviceType = data?.deviceType || null
     this.id = data?.id || generateUUID()
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.stripeReaderId = data?.stripeReaderId || null
     this.title = data?.title || null
     this.updatedAt = data?.updatedAt || generateDateString()

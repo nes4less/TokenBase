@@ -97,9 +97,19 @@ export interface Addressable {
 
 // ─── Metadata ───
 
-/** Carries arbitrary key-value metadata. */
+/** Classification of a data entry — what kind of data is this. */
+export type DataClassification = 'primary' | 'meta' | 'extended' | 'derived' | 'system'
+
+/** A single classified metadata entry. Every entry knows what it is. */
+export interface MetadataEntry {
+  key: string
+  value: string
+  classification: DataClassification
+}
+
+/** Carries classified metadata. Each entry self-declares primary/meta/extended/derived/system. */
 export interface Metadatable {
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
 }
 
 /** Has tags for categorization. */

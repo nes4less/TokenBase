@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -33,7 +34,7 @@ export class Handshake {
   createdAt: string
   resolvedAt: string | null
   expiresAt: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<Handshake>) {
     this.id = data?.id || generateUUID()
     this.action = data?.action || ''
@@ -50,6 +51,6 @@ export class Handshake {
     this.createdAt = data?.createdAt || generateDateString()
     this.resolvedAt = data?.resolvedAt || null
     this.expiresAt = data?.expiresAt || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }

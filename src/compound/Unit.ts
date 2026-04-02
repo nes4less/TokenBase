@@ -1,3 +1,4 @@
+import { MetadataEntry } from '../models/Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Identifier } from '../models/Identifier'
 import { Dimensions } from '../models/Measurement'
@@ -47,7 +48,7 @@ export class Unit {
   dimensions: Dimensions | null
   id: string
   images: Image[]
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   /** Reference to the product this unit is an instance of */
   productId: string | null
   sku: string | null
@@ -69,7 +70,7 @@ export class Unit {
     this.dimensions = data?.dimensions ? new Dimensions(data.dimensions) : null
     this.id = data?.id || generateUUID()
     this.images = data?.images?.map(i => new Image(i)) || []
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.productId = data?.productId || null
     this.sku = data?.sku || null
     this.statuses = data?.statuses?.map(s => new UnitStatus(s)) || []

@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -23,7 +24,7 @@ export class PromptOption {
   amount: number
   /** Percentage price modifier 0-1 (from Option) */
   percent: number
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<PromptOption>) {
     this.id = data?.id || generateUUID()
     this.label = data?.label || ''
@@ -32,7 +33,7 @@ export class PromptOption {
     this.position = data?.position ?? 0
     this.amount = data?.amount ?? 0
     this.percent = data?.percent ?? 0
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }
 
@@ -53,7 +54,7 @@ export class Prompt {
   answered: boolean
   createdAt: string
   answeredAt: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<Prompt>) {
     this.id = data?.id || generateUUID()
     this.title = data?.title || null
@@ -67,6 +68,6 @@ export class Prompt {
     this.answered = data?.answered ?? false
     this.createdAt = data?.createdAt || generateDateString()
     this.answeredAt = data?.answeredAt || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }

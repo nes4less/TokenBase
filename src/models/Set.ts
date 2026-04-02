@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Tag } from './Tag'
 
@@ -29,7 +30,7 @@ export class Set {
   createdBy: string | null
   updatedAt: string
   deletedAt: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<Set>) {
     this.id = data?.id || generateUUID()
     this.name = data?.name || null
@@ -45,6 +46,6 @@ export class Set {
     this.createdBy = data?.createdBy || null
     this.updatedAt = data?.updatedAt || generateDateString()
     this.deletedAt = data?.deletedAt || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }

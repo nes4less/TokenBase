@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -54,7 +55,7 @@ export class TimeTerm {
   description: string | null
   createdAt: string
   updatedAt: string
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<TimeTerm>) {
     this.id = data?.id || generateUUID()
     this.term = data?.term || 'duration'
@@ -68,6 +69,6 @@ export class TimeTerm {
     this.description = data?.description || null
     this.createdAt = data?.createdAt || generateDateString()
     this.updatedAt = data?.updatedAt || generateDateString()
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }

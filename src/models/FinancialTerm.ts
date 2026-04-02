@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -115,7 +116,7 @@ export class FinancialTerm {
   logicFunction: string | null
   /** Percentage or absolute value */
   magnitudeType: MagnitudeType
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   /** Display name for this specific instance */
   name: string | null
   /** IDs of other FinancialTerms this one is relative to */
@@ -135,7 +136,7 @@ export class FinancialTerm {
     this.id = data?.id || generateUUID()
     this.logicFunction = data?.logicFunction || null
     this.magnitudeType = data?.magnitudeType || 'absolute'
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.name = data?.name || null
     this.references = data?.references || []
     this.term = data?.term || 'charge'

@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -11,12 +12,12 @@ export class GridSlot {
   index: number
   /** Reference to the product displayed in this slot */
   productId: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<GridSlot>) {
     this.id = data?.id || generateUUID()
     this.index = data?.index ?? 0
     this.productId = data?.productId || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }
 
@@ -35,7 +36,7 @@ export class Grid {
   createdBy: string | null
   deletedAt: string | null
   id: string
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   slots: GridSlot[]
   title: string | null
   updatedAt: string
@@ -44,7 +45,7 @@ export class Grid {
     this.createdBy = data?.createdBy || null
     this.deletedAt = data?.deletedAt || null
     this.id = data?.id || generateUUID()
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.slots = data?.slots?.map(s => new GridSlot(s)) || []
     this.title = data?.title || null
     this.updatedAt = data?.updatedAt || generateDateString()

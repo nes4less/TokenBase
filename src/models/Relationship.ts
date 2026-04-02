@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Tag } from './Tag'
 
@@ -32,7 +33,7 @@ export class Relationship {
   deletedAt: string | null
   description: string | null
   id: string
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   /** The source entity/group ID */
   sourceId: string
   /** The source entity type or collection */
@@ -54,7 +55,7 @@ export class Relationship {
     this.deletedAt = data?.deletedAt || null
     this.description = data?.description || null
     this.id = data?.id || generateUUID()
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.sourceId = data?.sourceId || ''
     this.sourceType = data?.sourceType || null
     this.tags = data?.tags || []

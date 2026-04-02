@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Tag } from './Tag'
 
@@ -16,7 +17,7 @@ export class Group {
   entityId: string | null
   entityType: string | null
   id: string
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   name: string | null
   parentId: string | null
   tags: Tag[]
@@ -29,7 +30,7 @@ export class Group {
     this.entityId = data?.entityId || null
     this.entityType = data?.entityType || null
     this.id = data?.id || generateUUID()
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.name = data?.name || null
     this.parentId = data?.parentId || null
     this.tags = data?.tags || []

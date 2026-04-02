@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Tag } from './Tag'
 
@@ -16,7 +17,7 @@ export class ProtocolRule {
   priority: number
   /** Whether this rule is mandatory or advisory */
   mandatory: boolean
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<ProtocolRule>) {
     this.id = data?.id || generateUUID()
     this.subject = data?.subject || ''
@@ -24,7 +25,7 @@ export class ProtocolRule {
     this.enforcement = data?.enforcement || null
     this.priority = data?.priority ?? 0
     this.mandatory = data?.mandatory ?? true
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }
 
@@ -54,7 +55,7 @@ export class Protocol {
   createdBy: string | null
   updatedAt: string
   deletedAt: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<Protocol>) {
     this.id = data?.id || generateUUID()
     this.name = data?.name || null
@@ -70,6 +71,6 @@ export class Protocol {
     this.createdBy = data?.createdBy || null
     this.updatedAt = data?.updatedAt || generateDateString()
     this.deletedAt = data?.deletedAt || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }

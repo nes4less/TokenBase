@@ -1,3 +1,4 @@
+import { MetadataEntry } from '../models/Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -115,7 +116,7 @@ export class Order {
   heldAt: string | null
   id: string
   items: OrderItem[]
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   payments: OrderPayment[]
   taxes: OrderTax[]
   updatedAt: string
@@ -129,7 +130,7 @@ export class Order {
     this.heldAt = data?.heldAt || null
     this.id = data?.id || generateUUID()
     this.items = data?.items?.map(i => new OrderItem(i)) || []
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.payments = data?.payments?.map(p => new OrderPayment(p)) || []
     this.taxes = data?.taxes?.map(t => new OrderTax(t)) || []
     this.updatedAt = data?.updatedAt || generateDateString()

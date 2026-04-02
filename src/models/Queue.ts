@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -16,7 +17,7 @@ export class QueueItem {
   priority: number
   enqueuedAt: string
   dequeuedAt: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<QueueItem>) {
     this.id = data?.id || generateUUID()
     this.entityId = data?.entityId || ''
@@ -24,7 +25,7 @@ export class QueueItem {
     this.priority = data?.priority ?? 0
     this.enqueuedAt = data?.enqueuedAt || generateDateString()
     this.dequeuedAt = data?.dequeuedAt || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }
 
@@ -38,7 +39,7 @@ export class Queue {
   processingId: string | null
   createdAt: string
   updatedAt: string
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<Queue>) {
     this.id = data?.id || generateUUID()
     this.name = data?.name || null
@@ -48,6 +49,6 @@ export class Queue {
     this.processingId = data?.processingId || null
     this.createdAt = data?.createdAt || generateDateString()
     this.updatedAt = data?.updatedAt || generateDateString()
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }

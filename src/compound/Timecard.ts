@@ -1,3 +1,4 @@
+import { MetadataEntry } from '../models/Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -24,7 +25,7 @@ export class Timecard {
   endedAt: string | null
   id: string
   info: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   /** Corrected start time (overrides startedAt when present) */
   startedCorrection: string | null
   startedAt: string
@@ -40,7 +41,7 @@ export class Timecard {
     this.endedAt = data?.endedAt || null
     this.id = data?.id || generateUUID()
     this.info = data?.info || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.startedCorrection = data?.startedCorrection || null
     this.startedAt = data?.startedAt || generateDateString()
     this.status = data?.status || 'started'

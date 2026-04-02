@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Tag } from './Tag'
 
@@ -45,7 +46,7 @@ export class Improvement {
   createdBy: string | null
   deletedAt: string | null
   id: string
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   /** The agent or process that produced this record */
   producerId: string | null
   scopeId: string | null
@@ -63,7 +64,7 @@ export class Improvement {
     this.createdBy = data?.createdBy || null
     this.deletedAt = data?.deletedAt || null
     this.id = data?.id || generateUUID()
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.producerId = data?.producerId || null
     this.scopeId = data?.scopeId || null
     this.sourceIds = data?.sourceIds || []

@@ -1,3 +1,4 @@
+import { MetadataEntry } from '../models/Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Identifier } from '../models/Identifier'
 import { Dimensions } from '../models/Measurement'
@@ -27,7 +28,7 @@ export class Product {
   dimensions: Dimensions | null
   id: string
   images: Image[]
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   /** Stock keeping unit identifier */
   sku: string | null
   subtitle: string | null
@@ -46,7 +47,7 @@ export class Product {
     this.dimensions = data?.dimensions ? new Dimensions(data.dimensions) : null
     this.id = data?.id || generateUUID()
     this.images = data?.images?.map(i => new Image(i)) || []
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.sku = data?.sku || null
     this.subtitle = data?.subtitle || null
     this.tags = data?.tags?.map(t => new Tag(t)) || []

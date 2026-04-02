@@ -1,3 +1,4 @@
+import { MetadataEntry } from '../models/Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Image } from '../models/Image'
 
@@ -22,7 +23,7 @@ export class Business {
   id: string
   images: Image[]
   info: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   phone: string | null
   state: string | null
   /** Stripe Connect account ID for payment processing */
@@ -45,7 +46,7 @@ export class Business {
     this.id = data?.id || generateUUID()
     this.images = data?.images?.map(i => new Image(i)) || []
     this.info = data?.info || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.phone = data?.phone || null
     this.state = data?.state || null
     this.stripeAccountId = data?.stripeAccountId || null

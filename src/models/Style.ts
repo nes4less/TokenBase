@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Tag } from './Tag'
 
@@ -64,7 +65,7 @@ export class Style {
   /** The field mappings that define the output shape */
   fields: StyleField[]
   id: string
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   name: string | null
   tags: Tag[]
   /** The output format target */
@@ -81,7 +82,7 @@ export class Style {
     this.entityType = data?.entityType || null
     this.fields = data?.fields || []
     this.id = data?.id || generateUUID()
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.name = data?.name || null
     this.tags = data?.tags || []
     this.target = data?.target || 'plain'

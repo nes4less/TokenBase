@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Tag } from './Tag'
 
@@ -15,7 +16,7 @@ export class MapNode {
   layer: number
   /** Display label override */
   label: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   /** Position within the layer (angular or ordinal) */
   position: number
   constructor(data?: Partial<MapNode>) {
@@ -24,7 +25,7 @@ export class MapNode {
     this.id = data?.id || generateUUID()
     this.layer = data?.layer ?? 0
     this.label = data?.label || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.position = data?.position ?? 0
   }
 }
@@ -51,7 +52,7 @@ export class Map {
   deletedAt: string | null
   description: string | null
   id: string
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   name: string | null
   /** All positioned entities in this map */
   nodes: MapNode[]
@@ -68,7 +69,7 @@ export class Map {
     this.deletedAt = data?.deletedAt || null
     this.description = data?.description || null
     this.id = data?.id || generateUUID()
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.name = data?.name || null
     this.nodes = data?.nodes || []
     this.relationshipIds = data?.relationshipIds || []

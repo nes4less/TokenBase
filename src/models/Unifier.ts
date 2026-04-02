@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Identifier } from './Identifier'
 import { Image } from './Image'
@@ -27,7 +28,7 @@ export class Unifier {
   id: string
   identifiers: Identifier[]
   images: Image[]
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   name: string | null
   /** References to Scope IDs this unifier affects */
   scopeIds: string[]
@@ -46,7 +47,7 @@ export class Unifier {
     this.id = data?.id || generateUUID()
     this.identifiers = data?.identifiers || []
     this.images = data?.images || []
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.name = data?.name || null
     this.scopeIds = data?.scopeIds || []
     this.similarities = data?.similarities || {}

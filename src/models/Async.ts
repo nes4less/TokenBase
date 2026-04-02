@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -26,7 +27,7 @@ export class Async {
   callbackId: string | null
   createdAt: string
   resolvedAt: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<Async>) {
     this.id = data?.id || generateUUID()
     this.status = data?.status || 'pending'
@@ -38,6 +39,6 @@ export class Async {
     this.callbackId = data?.callbackId || null
     this.createdAt = data?.createdAt || generateDateString()
     this.resolvedAt = data?.resolvedAt || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }

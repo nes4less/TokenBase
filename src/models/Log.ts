@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 
 /**
@@ -31,7 +32,7 @@ export class LogEntry {
   /** Optional reason for the change */
   reason: string | null
   timestamp: string
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   constructor(data?: Partial<LogEntry>) {
     this.id = data?.id || generateUUID()
     this.entityId = data?.entityId || ''
@@ -45,6 +46,6 @@ export class LogEntry {
     this.action = data?.action || 'update'
     this.reason = data?.reason || null
     this.timestamp = data?.timestamp || generateDateString()
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
   }
 }

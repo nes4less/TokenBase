@@ -1,3 +1,4 @@
+import { MetadataEntry } from '../models/Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Image } from '../models/Image'
 
@@ -37,7 +38,7 @@ export class Container {
   description: string | null
   id: string
   images: Image[]
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   sku: string | null
   statuses: ContainerStatus[]
   subtitle: string | null
@@ -50,7 +51,7 @@ export class Container {
     this.description = data?.description || null
     this.id = data?.id || generateUUID()
     this.images = data?.images?.map(i => new Image(i)) || []
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.sku = data?.sku || null
     this.statuses = data?.statuses?.map(s => new ContainerStatus(s)) || []
     this.subtitle = data?.subtitle || null

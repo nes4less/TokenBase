@@ -1,3 +1,4 @@
+import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
 import { Image } from './Image'
 import { Tag } from './Tag'
@@ -22,7 +23,7 @@ export class Context {
   implications: string | null
   key: string | null
   language: string | null
-  metadata: Record<string, string>
+  metadata: MetadataEntry[]
   parentId: string | null
   params: Record<string, string>
   position: number
@@ -45,7 +46,7 @@ export class Context {
     this.implications = data?.implications || null
     this.key = data?.key || null
     this.language = data?.language || null
-    this.metadata = data?.metadata || {}
+    this.metadata = data?.metadata || []
     this.parentId = data?.parentId || null
     this.params = data?.params || {}
     this.position = data?.position ?? 0
