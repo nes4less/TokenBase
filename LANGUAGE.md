@@ -75,3 +75,7 @@ The TypeScript models in `src/models/` are a working draft of the *semantics* �
 Add observations here as they come up. Anything that refines the model, reveals a missing primitive, or clarifies a compilation boundary.
 
 - The model set has a "cavemen to AI age" arc — from raw physical primitives (Locatable, Measurement, Container) through human abstractions (Nameable, Group, Relationship, FinancialTerm) to automation (AgentFlow, Improvement, Async). The language could reflect this evolutionary layering — each era builds on the last. Develop this theme later.
+- **Typeable** as root classification: Person, Place, Thing, Idea, Event, Location, Result, Action, State, Quantity, Rule, Signal. Every entity IS one of these at root. This may reorganize the entire model list into tiered compound base models (Tier 0: types, Tier 1: traits, Tier 2: structural, Tier 3: operational, Tier 4: compound).
+- **Context might absorb Typeable** — Context already carries identity, display, scope, params, metadata. If it also carries the root type, it becomes the universal identity card for any entity. The entity is just data, Context is everything ABOUT it. Design session needed.
+- **Pending base primitives not yet modeled:** Queue, Sort, Filter, Async, Expirable/Destructible, Prompt, Nameable, Attachable, Locatable (with proximity), Access (public/private), Typeable, TimeTerm
+- **Hardware utilities** modeled as Functions: Print, Scan, Camera, Share, Speaker, Microphone, Haptic, Biometric, NFC, Bluetooth, Clipboard, File System, Location
