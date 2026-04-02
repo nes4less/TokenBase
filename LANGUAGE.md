@@ -48,8 +48,23 @@ These become native to the language, not library code:
 | **Relationship** | Typed edge between groups — parent, child, sibling, dependency |
 | **Map** | Topology — all relationships in a set, orbital/hierarchical structure |
 | **Style** | Presentation template — flatten model data to print/markup/linked/plain |
+| **Improvement** | Data refinement pipeline — raw → categorized → summarized → analyzed → rules |
+| **AgentFlow** | Processing workflow — chain of agents with pass/loop gates and refresh cadence |
+| **FlowAgent** | Agent within a flow — focused role, gate condition, position |
 | **Tag** | Classification primitive |
 | **Image** | Visual asset with blurhash |
+
+## Architecture Vision
+
+```
+TokenRemote App = multi-threaded CLI commander (human interface)
+Agents = workers in defined flows (FlowAgent chains)
+Improvement pipeline = CLI data → rules (first flow)
+Future flows = planning, code writing, context clearing, build uploads
+
+Goal: humans do as little as possible, only after agents
+have processed and prepared everything correctly.
+```
 
 ## Current State
 
