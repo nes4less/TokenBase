@@ -12,6 +12,8 @@
 
 5. **Bottom-up efficiency** — Start from the lowest layer, squeeze the air out, only lose efficiency at each compilation boundary. Don't compress higher-level assumptions into the foundation.
 
+6. **AI optimization** — Drastically cut consumed resources (tokens, compute, time) to produce results. The language and agent flows should minimize what AI needs to process by giving it precisely structured, pre-refined input. Less waste, same or better output.
+
 6. **Living document** — New concepts added as they emerge across projects. LANGUAGE.md captures the compiler vision. Insights logged as discovered.
 
 7. **Refactor target** — After TokenRemote and TokenSports ship, re-abstract everything into TokenBase. Build the project builder framework. Kill busywork.
