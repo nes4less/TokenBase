@@ -1,8 +1,8 @@
 import { generateDateString, generateUUID } from '../utils'
-import { Barcode } from './Barcode'
-import { Dimensions } from './Measurement'
-import { Image } from './Image'
-import { Tag } from './Tag'
+import { Identifier } from '../models/Identifier'
+import { Dimensions } from '../models/Measurement'
+import { Image } from '../models/Image'
+import { Tag } from '../models/Tag'
 
 /**
  * Unit status progression.
@@ -36,7 +36,7 @@ export class Unit {
   static collection: string = 'units'
   /** Price in smallest currency unit (cents) */
   amount: number
-  barcodes: Barcode[]
+  identifiers: Identifier[]
   catalogId: string | null
   /** Reference to the container holding this unit */
   containerId: string | null
@@ -59,7 +59,7 @@ export class Unit {
   updatedAt: string
   constructor(data?: Partial<Unit>) {
     this.amount = data?.amount ?? 0
-    this.barcodes = data?.barcodes?.map(b => new Barcode(b)) || []
+    this.identifiers = data?.identifiers?.map(i => new Identifier(i)) || []
     this.catalogId = data?.catalogId || null
     this.containerId = data?.containerId || null
     this.createdAt = data?.createdAt || generateDateString()

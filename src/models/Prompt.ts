@@ -6,6 +6,9 @@ import { generateDateString, generateUUID } from '../utils'
  * Options presented for selection. Can target humans (UI picker),
  * agents (choice response), or systems (rule-based auto-select).
  * The inverse of Function — "I need input before I can proceed."
+ *
+ * Absorbs Option/OptionGroup — a Prompt with method:'select' and
+ * options that carry price modifiers covers the same ground.
  */
 
 export type PromptMethod = 'select' | 'multiselect' | 'input' | 'confirm'
@@ -16,12 +19,20 @@ export class PromptOption {
   value: string
   description: string | null
   position: number
+  /** Fixed price modifier (from Option) */
+  amount: number
+  /** Percentage price modifier 0-1 (from Option) */
+  percent: number
+  metadata: Record<string, string>
   constructor(data?: Partial<PromptOption>) {
     this.id = data?.id || generateUUID()
     this.label = data?.label || ''
     this.value = data?.value || ''
     this.description = data?.description || null
     this.position = data?.position ?? 0
+    this.amount = data?.amount ?? 0
+    this.percent = data?.percent ?? 0
+    this.metadata = data?.metadata || {}
   }
 }
 

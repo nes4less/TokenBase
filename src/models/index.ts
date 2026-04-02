@@ -3,58 +3,44 @@ export * from './Entity'
 export * from './Traits'
 
 // ─── Primitives ───
-export * from './Address'
 export * from './Image'
+export * from './Measurement'
 export * from './Note'
-export * from './Option'
-export * from './StatusChange'
 export * from './Tag'
 
 // ─── Identity & Detection ───
-export * from './Barcode'
 export * from './Identifier'
 
 // ─── Structure & Topology ───
 export * from './Context'
+export * from './Grid'
 export * from './Group'
 export * from './Map'
-export * from './Measurement'
+export * from './Queue'
 export * from './Relationship'
 export * from './Scope'
 export * from './Set'
 export * from './Style'
 export * from './Unifier'
 
+// ─── Data Operations ───
+export * from './Filter'
+export * from './Log'
+export * from './Sort'
+
 // ─── Operations ───
 export * from './Async'
-export * from './Filter'
 export * from './Function'
 export * from './Handshake'
-export * from './Log'
+export * from './Instruction'
 export * from './Prompt'
-export * from './Queue'
-export * from './Sort'
+export * from './Protocol'
 
 // ─── Financial ───
 export * from './FinancialTerm'
-export * from './Pricing'
 
 // ─── Time ───
 export * from './TimeTerm'
-
-// ─── Commerce ───
-export * from './Business'
-export * from './Catalog'
-export * from './Container'
-export * from './Grid'
-export * from './Order'
-export * from './Product'
-export * from './Reader'
-export * from './Till'
-export * from './Unit'
-
-// ─── Workforce ───
-export * from './Timecard'
 
 // ─── Agent / Automation ───
 export * from './AgentFlow'

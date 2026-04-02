@@ -1,11 +1,32 @@
 import { generateUUID } from '../utils'
 
 /**
- * Identifier — a way to distinguish a variant.
+ * Barcode symbology types — for identifiers of type 'barcode'.
+ */
+export type BarcodeSymbology =
+  | 'AZTEC'
+  | 'CODABAR'
+  | 'CODE128'
+  | 'CODE39'
+  | 'CODE93'
+  | 'DATAMATRIX'
+  | 'EAN13'
+  | 'EAN8'
+  | 'ITF14'
+  | 'PDF417'
+  | 'QR'
+  | 'UPC_A'
+  | 'UPC_E'
+  | 'UNKNOWN'
+
+/**
+ * Identifier — a way to distinguish a variant or entity.
  *
  * Can be detectable (barcode, QR, RFID) or descriptive (label, color, SKU).
- * Detectable identifiers can reference other models in the system
- * (e.g. a CashierFu barcode model).
+ * Detectable identifiers can reference other models in the system.
+ *
+ * Absorbs Barcode — a barcode is an Identifier with type:'barcode'
+ * and a symbology field.
  */
 export class Identifier {
   id: string
@@ -13,6 +34,8 @@ export class Identifier {
   type: string
   /** The value — a barcode number, a SKU string, a description, or a foreign model ID */
   value: string | null
+  /** Barcode symbology — only relevant when type is 'barcode' */
+  symbology: BarcodeSymbology | null
   /** For reference-type identifiers: the collection/model being referenced */
   referenceType: string | null
   /** For reference-type identifiers: the ID in that collection */
@@ -24,6 +47,7 @@ export class Identifier {
     this.id = data?.id || generateUUID()
     this.type = data?.type || 'label'
     this.value = data?.value || null
+    this.symbology = data?.symbology || null
     this.referenceType = data?.referenceType || null
     this.referenceId = data?.referenceId || null
     this.detectable = data?.detectable ?? false

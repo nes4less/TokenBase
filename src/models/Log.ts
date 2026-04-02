@@ -5,9 +5,12 @@ import { generateDateString, generateUUID } from '../utils'
  *
  * What changed, when, by whom, from what to what.
  * The complete audit trail primitive.
+ *
+ * Absorbs StatusChange — a status transition is a LogEntry
+ * with level:'field', field:'status', fromValue/toValue set.
  */
 
-export type LogLevel = 'field' | 'entity' | 'access' | 'derivation' | 'system'
+export type LogLevel = 'field' | 'entity' | 'access' | 'derivation' | 'system' | 'status'
 
 export class LogEntry {
   id: string
@@ -23,8 +26,10 @@ export class LogEntry {
   field: string | null
   fromValue: string | null
   toValue: string | null
-  /** Action: create, update, delete, read, export, share */
+  /** Action: create, update, delete, read, export, share, transition */
   action: string
+  /** Optional reason for the change */
+  reason: string | null
   timestamp: string
   metadata: Record<string, string>
   constructor(data?: Partial<LogEntry>) {
@@ -38,6 +43,7 @@ export class LogEntry {
     this.fromValue = data?.fromValue || null
     this.toValue = data?.toValue || null
     this.action = data?.action || 'update'
+    this.reason = data?.reason || null
     this.timestamp = data?.timestamp || generateDateString()
     this.metadata = data?.metadata || {}
   }

@@ -1,8 +1,8 @@
 import { generateDateString, generateUUID } from '../utils'
-import { Barcode } from './Barcode'
-import { Dimensions } from './Measurement'
-import { Image } from './Image'
-import { Tag } from './Tag'
+import { Identifier } from '../models/Identifier'
+import { Dimensions } from '../models/Measurement'
+import { Image } from '../models/Image'
+import { Tag } from '../models/Tag'
 
 /**
  * Product — a sellable item definition.
@@ -17,7 +17,7 @@ import { Tag } from './Tag'
  */
 export class Product {
   static collection: string = 'products'
-  barcodes: Barcode[]
+  identifiers: Identifier[]
   /** Reference to the catalog this product belongs to */
   catalogId: string | null
   createdAt: string
@@ -37,7 +37,7 @@ export class Product {
   title: string | null
   updatedAt: string
   constructor(data?: Partial<Product>) {
-    this.barcodes = data?.barcodes?.map(b => new Barcode(b)) || []
+    this.identifiers = data?.identifiers?.map(i => new Identifier(i)) || []
     this.catalogId = data?.catalogId || null
     this.createdAt = data?.createdAt || generateDateString()
     this.createdBy = data?.createdBy || null

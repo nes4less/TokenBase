@@ -1,5 +1,5 @@
 import { generateDateString, generateUUID } from '../utils'
-import { Image } from './Image'
+import { Image } from '../models/Image'
 
 /**
  * Business — a merchant or store entity.
