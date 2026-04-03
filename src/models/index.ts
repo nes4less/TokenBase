@@ -21,6 +21,7 @@ export * from './Relationship'
 export * from './Scope'
 export * from './Set'
 export * from './Style'
+export * from './Thread'
 export * from './Unifier'
 
 // ─── Data Operations ───
@@ -33,6 +34,7 @@ export * from './Async'
 export * from './Function'
 export * from './Handshake'
 export * from './Instruction'
+export * from './Interaction'
 export * from './Prompt'
 export * from './Protocol'
 
@@ -41,6 +43,12 @@ export * from './FinancialTerm'
 
 // ─── Time ───
 export * from './TimeTerm'
+
+// ─── Views & Navigation ───
+export * from './Navigation'
+export * from './View'
+export * from './ViewGroup'
+export * from './ViewState'
 
 // ─── Agent / Automation ───
 export * from './AgentFlow'
