@@ -57,3 +57,6 @@ export * from './Improvement'
 // ─── Design Knowledge ───
 export * from './BugPattern'
 export * from './DesignChoice'
+
+// ─── Cost & Validity ───
+export * from './Bandwidth'

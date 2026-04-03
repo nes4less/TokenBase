@@ -124,12 +124,21 @@
 | `BugPattern` | Preventable issue captured for automatic rule generation | TokenBase |
 | `BugSeverity` | low, medium, high, critical | TokenBase |
 
+## Cost & Validity
+
+| Class / Type | Purpose | Origin |
+|---|---|---|
+| `Bandwidth` | Predicted processing cost for an entity before execution | TokenBase |
+| `CostMeasurement` | Actual observed cost after execution, paired with prediction | TokenBase |
+| `CostUnit` | Resource type being measured (tokens, ms, cpu-ms, bytes, calls, steps, dollars) | TokenBase |
+| `Validity` | Degree of certainty for any claim — likelihood, potential accuracy, consistency, observation count | TokenBase |
+
 ## Summary
 
-- **35 model files**
-- **49 classes**
+- **36 model files**
+- **52 classes**
 - **18 interfaces** (traits)
-- **25 type aliases**
+- **28 type aliases**
 
 ### Sources
 
