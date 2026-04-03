@@ -113,12 +113,23 @@
 | `FlowAgent` | Agent within a flow — role, gate, position | TokenBase |
 | `Improvement` | Data moving through refinement pipeline (raw → rule) | TokenBase |
 
+## Design Knowledge
+
+| Class / Type | Purpose | Origin |
+|---|---|---|
+| `DesignChoice` | Recorded design decision with scope, variants, and preference | TokenBase |
+| `ChoiceVariant` | One option considered for a design choice | TokenBase |
+| `DesignScope` | Breadth of implication (element → component → system → cross-project) | TokenBase |
+| `DesignDomain` | Domain a choice applies to (auth, ui, data-model, api, etc.) | TokenBase |
+| `BugPattern` | Preventable issue captured for automatic rule generation | TokenBase |
+| `BugSeverity` | low, medium, high, critical | TokenBase |
+
 ## Summary
 
-- **33 model files**
-- **46 classes**
+- **35 model files**
+- **49 classes**
 - **18 interfaces** (traits)
-- **20 type aliases**
+- **25 type aliases**
 
 ### Sources
 
@@ -127,4 +138,4 @@
 | GameroomKit (2017-2019) | Entity, all 15 traits, Address, Note, StatusChange, Option, OptionGroup, Timecard |
 | CashierFu-Kit | Barcode, Catalog, Container, Grid, Image, Measurement/Dimensions, Product, Tag, Unit |
 | CashierFu-Mobile / Desktop | Business, Discount, Order (+ Items/Discounts/Taxes/Payments), Reader, Tax, Till |
-| TokenBase (original) | Context, FinancialTerm, Function, Group, Identifier, Improvement, AgentFlow, Map, Relationship, Scope, Style, Unifier |
+| TokenBase (original) | Context, FinancialTerm, Function, Group, Identifier, Improvement, AgentFlow, Map, Relationship, Scope, Style, Unifier, DesignChoice, ChoiceVariant, BugPattern |

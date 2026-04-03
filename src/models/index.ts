@@ -53,3 +53,7 @@ export * from './ViewState'
 // ─── Agent / Automation ───
 export * from './AgentFlow'
 export * from './Improvement'
+
+// ─── Design Knowledge ───
+export * from './BugPattern'
+export * from './DesignChoice'
