@@ -32,7 +32,7 @@ The kit provides everything needed to build any application from the ground up u
 │  Declare models → get storage + realtime    │
 │  (Parked until language questions resolved) │
 ├─────────────────────────────────────────────┤
-│  Base Models (30) + Traits (26)             │
+│  Base Models (35) + Traits (27)             │
 │  The vocabulary — what things are           │
 ├─────────────────────────────────────────────┤
 │  Language Layer (future)                    │
@@ -47,10 +47,10 @@ The kit provides everything needed to build any application from the ground up u
 
 ### 1. Models (✅ Done)
 
-30 base models + 26 traits. The irreducible primitives.
+34 base models + 27 traits. The irreducible primitives.
 
 **Base Models:**
-AgentFlow, Async, Context, Entity, Filter, FinancialTerm, Function, Grid, Group, Handshake, Identifier, Image, Improvement, Instruction, Log, Map, Measurement, Note, Prompt, Protocol, Queue, Relationship, Scope, Set, Sort, Style, Tag, TimeTerm, Traits, Unifier
+AgentFlow, Async, Context, Entity, Filter, FinancialTerm, Function, Grid, Group, Handshake, Identifier, Image, Improvement, Instruction, Interaction, Log, Map, Measurement, Navigation, Note, Prompt, Protocol, Queue, Relationship, Scope, Set, Sort, Style, Tag, Thread, TimeTerm, View, ViewGroup, ViewState
 
 **Traits:**
 Nameable, Subnameable, Describable, Identifiable, Indexable, Rankable, Colorable, Imageable, Statusable, Noteable, Chargeable, Saleable, Addressable, Metadatable (classified entries), Taggable, Polymorphic, Expirable, Attachable, Locatable, Accessible, Sourceable, Validatable, Securable, Interchangeable, Linkable, Typeable
@@ -155,7 +155,7 @@ Documented in LANGUAGE.md. The cavemen-to-AI arc. Layer 0 machine primitives →
 
 ```
 Phase 1: Stabilize (NOW)
-├── ✅ Models locked (30 base + 26 traits)
+├── ✅ Models locked (35 base + 27 traits)
 ├── ✅ Compound models separated
 ├── ✅ INVENTORY.md — complete model list
 ├── 📋 MODELS.md — full contextual docs with tests/use cases

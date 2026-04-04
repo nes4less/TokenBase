@@ -1,48 +1,52 @@
 # TokenBase — Complete Model Inventory
 
-> **This file is reference context, not a task.** Master list of all implemented and pending base models. The goal: build any app with just these. Everything else is compound.
+> **This file is reference context, not a task.** Master list of all implemented base models, traits, and compound models.
 
 ---
 
-## Implemented — Models (33 files)
+## Implemented — Base Models (34 files in `src/models/`)
 
-| Model | Type | Status |
+| Model | Category | Purpose |
 |---|---|---|
-| Address | Primitive | ✅ From CashierFu/GameroomKit |
-| AgentFlow | Operational | ✅ TokenBase original |
-| Barcode | Identity | ✅ From CashierFu |
-| Business | Commerce | ⚠️ May be compound (Group + Nameable + Scope) |
-| Catalog | Commerce | ⚠️ May be compound (Group + Nameable) |
-| Container | Commerce | ⚠️ May be compound (Locatable + Nameable + Statusable) |
-| Context | Structural | ✅ TokenBase original |
-| Entity | Base | ✅ Universal base class |
-| FinancialTerm | Operational | ✅ TokenBase original |
-| Function | Operational | ✅ TokenBase original |
-| Grid | Structural | ✅ From CashierFu — spatial layout |
-| Group | Structural | ✅ TokenBase original |
-| Identifier | Identity | ✅ TokenBase original |
-| Image | Primitive | ✅ |
-| Improvement | Operational | ✅ TokenBase original |
-| Map | Structural | ✅ TokenBase original |
-| Measurement | Primitive | ✅ From CashierFu — dimensions/weight |
-| Note | Primitive | ✅ From GameroomKit |
-| Option | Primitive | ✅ From GameroomKit — selectable choice |
-| Order | Commerce | ⚠️ May be compound (Event + [FinancialTerms] + [Items]) |
-| Pricing | Commerce | ⚠️ May merge with FinancialTerm |
-| Product | Commerce | ⚠️ May be compound (Nameable + Identifiable + Chargeable + Imageable) |
-| Reader | Commerce | ⚠️ Hardware utility — may be Function |
-| Relationship | Structural | ✅ TokenBase original |
-| Scope | Structural | ✅ TokenBase original |
-| StatusChange | Primitive | ✅ From GameroomKit |
-| Style | Operational | ✅ TokenBase original |
-| Tag | Primitive | ✅ |
-| Till | Commerce | ⚠️ May be compound (Container + Log + FinancialTerms) |
-| Timecard | Workforce | ⚠️ May be compound (TimeTerm + Event + Entity) |
-| Traits | Interfaces | ✅ Trait system (18 interfaces) |
-| Unifier | Structural | ✅ TokenBase original |
-| Unit | Commerce | ⚠️ May be compound (Unifier instance + Statusable) |
+| Entity | Base | Universal base — id, timestamps, createdBy, soft-delete |
+| Address | Primitive | Physical location with contact details |
+| Image | Primitive | Visual asset with blurhash placeholder |
+| Measurement | Primitive | Physical dimensions and weight |
+| Note | Primitive | Polymorphic annotation on any entity |
+| Tag | Primitive | Categorization tag with color |
+| Barcode | Identity | Machine-readable identifier with symbology type (in Identifier.ts) |
+| Identifier | Identity | Abstract detection — barcode, QR, RFID, SKU, label |
+| Context | Structure | Display, scoping, and presentation metadata |
+| Grid | Structure | Spatial layout system (POS buttons, warehouse map) |
+| Group | Structure | Declares that things belong together |
+| Map | Structure | Topology — positions entities in orbital layers |
+| Queue | Structure | Ordered waiting line — FIFO/LIFO/priority |
+| Relationship | Structure | Typed edge between two entities |
+| Scope | Structure | Downstream effects — hierarchy, regional metadata |
+| Set | Structure | Bounded, complete collection within a scope |
+| Style | Structure | Presentation template — maps model fields to formatted output |
+| Thread | Structure | Conversation chain — owns messages, tracks participants and state |
+| Unifier | Structure | Defines what makes a variant distinct from siblings |
+| Filter | Data Operations | Selection rule — field, operator, value |
+| Log | Data Operations | Immutable append-only change record (absorbs StatusChange) |
+| Sort | Data Operations | Ordering rule — field, direction, priority |
+| Async | Operations | Non-immediate operation — the Promise pattern as a data model |
+| Function | Operations | Complete operation — inputs, outputs, transformation |
+| Handshake | Operations | Mutual agreement protocol — propose, approve, reject, counter |
+| Instruction | Operations | Ordered step sequence — recipes, procedures, protocols |
+| Interaction | Operations | User input gesture mapped to an operation |
+| Prompt | Operations | Structured decision request — select, multiselect, input, confirm (absorbs Option/OptionGroup) |
+| Protocol | Operations | Governing ruleset — mandatory/advisory rules with enforcement |
+| FinancialTerm | Financial | Typed directional monetary operation (70+ term types) |
+| TimeTerm | Time | Typed directional time operation — deadline, duration, buffer, sprint, etc. |
+| Navigation | Views & Nav | Navigation graph — nodes, edges, transition types (stack/tab/modal/drawer) |
+| View | Views & Nav | Saved perspective on data — Filter + Sort + Style + entity type |
+| ViewGroup | Views & Nav | Ordered collection of Views — tab bars, dashboards, settings sections |
+| ViewState | Views & Nav | Runtime snapshot of a View's condition — selected, scroll, loading, error |
+| AgentFlow | Agent | Processing pipeline composed of agents |
+| Improvement | Agent | Data moving through refinement pipeline (raw → rule) |
 
-## Implemented — Traits (18 interfaces in Traits.ts)
+## Implemented — Traits (27 interfaces in `Traits.ts`)
 
 | Trait | What it declares |
 |---|---|
@@ -59,86 +63,36 @@
 | Chargeable | Has a monetary amount |
 | Saleable | Can be sold (amount + taxable) |
 | Addressable | Has a physical address |
-| Metadatable | Carries arbitrary key/value metadata |
+| Metadatable | Carries classified key/value metadata |
 | Taggable | Has tags for categorization |
 | Polymorphic | References a polymorphic entity (type + id) |
+| Expirable | Finite lifespan / consumed on use |
+| Attachable | Attach any file/document to any entity |
+| Locatable | Geographic position + proximity |
+| Accessible | Visibility/permission — public, private, restricted, shared |
+| Sourceable | Provenance — where data came from |
+| Validatable | Trust level — verified/unverified/disputed/expired, confidence |
+| Securable | Integrity — hash, key, locked, signed |
+| Interchangeable | Substitution — entities that can replace each other |
+| Linkable | External URL/URI reference |
+| Typeable | Abstract noun classification — person, place, thing, idea, event, etc. |
 
-## Pending — Base Primitives (not yet modeled)
+## Implemented — Compound Models (8 files in `src/compound/`)
 
-| Primitive | Category | What it is |
-|---|---|---|
-| Queue | Structural | Ordered waiting line — FIFO/LIFO/priority, items, processing state |
-| Sort | Structural | Ordering rule — field, direction, priority when chained |
-| Filter | Structural | Selection rule — field, operator (eq/contains/gt/in/between), value |
-| Async | Operational | Non-immediate operation — status (pending/active/resolved/rejected/cancelled), timeout, result, error |
-| Expirable | Trait | Finite lifespan / consumed on use — expiresAt, maxUses, currentUses, consumeOnRead, ttl |
-| Prompt | Operational | Structured decision request — options, single/multi/input mode, targets human/agent/system |
-| Attachable | Trait | Attach any file/document to any entity — type-agnostic |
-| Locatable | Trait | Geographic position + proximity — absolute coords, relative distance queries |
-| Access | Trait | Visibility/permission — public, private, restricted, shared, conditions |
-| Typeable | Root | Abstract noun classification — person, place, thing, idea, event, location, result, action, state, quantity, rule, signal |
-| TimeTerm | Operational | Time operations (same pattern as FinancialTerm) — deadline, duration, buffer, cadence, grace period, overtime, window, blackout, cooldown, sprint |
-| Source | Trait | Provenance — where data came from, first/third party, original/derived/copied |
-| Validity | Trait | Trust level — verified/unverified/disputed/expired, confidence (0-1), truth window, verified by whom |
-| Security | Trait | Integrity — hash, key, locked (immutable), signed, signedBy |
-| DataOrigin | Trait | How data was created — crud, derived, observed, inferred, imported, generated |
-| Log | Structural | Immutable append-only change history — field/entity/access/derivation level changes |
-| Interchangeable | Trait | Substitution — entities that can replace each other, compatibility (full/partial/conditional), bidirectional, priority, conditions |
-| Handshake | Operational | Mutual agreement protocol — propose, approve, reject, counter. Multi-party consent gate |
-
-## Pending — Compound Models (to verify: base or composed?)
-
-| Model | Likely composition | Verdict needed |
-|---|---|---|
-| Message | Entity + Nameable + Polymorphic + Attachable | Common enough for standalone? |
-| Notification | Event + Style(target:alert) + Access(recipient) | Common enough for standalone? |
-| Comment | Message + Polymorphic(anchored to entity) | Merge with Message? |
-| Subscription | TimeTerm(cadence) + Relationship + StatusChange | Compound? |
-| Media | Image superset (any file type) | Image becomes Media? |
-| Content | Nameable + Attachable + Style + Expirable | Compound? |
-| DataSource | Function(read) + TimeTerm(refresh) + Scope | Compound? |
-| Module | Function(capabilities) + Group(deps) + Relationship | Compound? |
-| Query | Function(operation:read) + Filter + Sort | Merge with Function? |
-| View | Query + Style | Compound? |
-| Flag | Tag with semantic constraint | Merge with Tag? |
-| Range | Primitive (min/max bounds) | Keep as primitive? |
-| Person | Nameable + Locatable + Imageable + Typeable(person) | Compound? |
-| Organization | Group + Nameable + Scope + Context | Compound? |
-| ColorProfile | Style(target:theme) | Compound? |
-| Publication | Content + Scope(audience) + StatusChange | Compound? |
-| Event | Entity + Typeable(event) + Polymorphic + Source | Keep as primitive or compound? |
-
-## Hardware Utilities (modeled as Functions)
-
-| Utility | Inputs | Outputs | Connects to |
+| Model | Category | Purpose | Origin |
 |---|---|---|---|
-| Print | Style-formatted data | Physical document | Style |
-| Scan | Camera feed | Identifier | Identifier |
-| Camera | Capture config | Image/Media | Image |
-| Share | Content + target | Share result | Content, Style |
-| Speaker | Audio data | Playback | Media |
-| Microphone | Capture config | Audio | Media |
-| Haptic | Pattern | Tactile feedback | — |
-| Biometric | Auth request | Access result | Access |
-| NFC | Read/write config | Identifier/data | Identifier |
-| Bluetooth | Discovery/connect | Device Relationship | Relationship |
-| Clipboard | Content | Content | — |
-| File System | Path + operation | Media/Attachable | Media, Attachable |
-| Location | Query | Locatable | Locatable |
+| Business | Commerce | Merchant/store entity with Stripe integration | CashierFu-Mobile + GameroomKit |
+| Container | Commerce | Physical storage location (bin, box, shelf) | CashierFu-Kit |
+| Order | Commerce | Complete sales transaction with calculations | CashierFu-Mobile + GameroomKit |
+| Product | Commerce | Sellable item definition (template) | CashierFu-Kit + GameroomKit |
+| Reader | Commerce | Payment terminal / card reader (Stripe Terminal) | CashierFu-Mobile |
+| Till | Commerce | Cash register with audit-based balance tracking | CashierFu-Mobile |
+| Timecard | Workforce | Work session record (clock in/out, corrections) | GameroomKit |
+| Unit | Commerce | Individual instance of a product (inventory item) | CashierFu-Kit |
 
 ## Totals
 
-- **33 implemented models** (some may collapse into compounds)
-- **18 implemented traits**
-- **18 pending primitives/traits**
-- **17 pending compound verdicts**
-- **13 hardware utilities** (modeled as Functions)
-
-## Next Steps
-
-1. Other CLI finishes reconciliation push
-2. Merge this list with their additions
-3. Write full contextual docs (MODELS.md) with descriptions, tests, use cases
-4. Redundancy pass — collapse compounds, merge overlaps
-5. Tier the models (Typeable → Traits → Structural → Operational → Compound)
-6. Strategy session on the type system design
+- **34 base model files** (37 including Entity, Traits, index)
+- **27 trait interfaces**
+- **8 compound models**
+- **100+ exported classes, types, and enums total**
