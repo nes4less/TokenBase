@@ -4,11 +4,11 @@
 
 ## 2026-04-03
 
-### Inconsistent `static collection` across models
+### ~~Inconsistent `static collection` across models~~ — RESOLVED
 
-Some models have `static collection: string = 'collectionName'` (e.g., Group, Unifier, Scope, Context) while others don't (Entity, Filter, Tag, Sort, Identifier, Image, Log, Measurement). The split seems intentional — models without `collection` are embeddable primitives, not top-level storable records. But there's no formal marker for this distinction. When the MCP controller generates CRUD operations, it needs to know which models are independently storable vs embedded. Worth formalizing — either a `static embeddable = true` marker, a trait, or documented convention in MODELS.md.
+The split is intentional: 30 storable models declare `static collection`, 8 embeddable models don't. Convention now documented in MODELS.md and SCOPE-MODELS.md with a full embeddable/storable table and MCP implications.
 
-**Models missing `static collection`:** Entity, Filter, Identifier, Image, Log, Measurement, Sort, Tag
+**Embeddable models:** Entity, Filter, Identifier, Image, Log, Measurement, Sort, Tag
 
 ### ~~Model count drift in KIT-PLAN.md~~ — RESOLVED
 
@@ -22,6 +22,14 @@ Base models like Group, Context, Scope all independently declare `id`, `createdA
 
 Constructors accept `Partial<T>` and default everything to null/empty. There's no validation — you can create a Filter with `operator: 'between'` and no `valueTo`, a FinancialTerm with `amount: 0` and `currency: null`, a Handshake with no parties. This is fine for the current "models as vocabulary" phase, but the MCP layer will need validation rules per model. Worth designing as a trait (Validatable exists but isn't implemented on any model) or as MCP-layer middleware rather than baking it into constructors.
 
-### `generateHexColor` in utils is unused
+### ~~`generateHexColor` in utils is unused~~ — RESOLVED
 
-Defined in `src/utils/index.ts` but grep shows no imports outside the file itself. Probably leftover from an earlier color-handling approach — Tag and Style use hardcoded defaults instead.
+Removed from `src/utils/index.ts`. Was dead code — Tag and Style use hardcoded color defaults.
+
+### ~~Constructor operator inconsistency (`??` vs `||`)~~ — NOT AN ISSUE
+
+Investigated: the mix is intentional and correct. `??` (nullish coalescing) is used for numbers and booleans where `0`/`false` are valid values (e.g., `amount ?? 0`, `taxable ?? true`). `||` (logical OR) is used for strings and null-defaulting where any falsy value should trigger the default. Every model follows this pattern consistently.
+
+### `Validatable` and `Interchangeable` traits are defined but unimplemented
+
+Both exist in Traits.ts with full field definitions but no model implements either. They're forward-designed for the MCP/validation layer. Annotated in MODELS.md as "designed, not yet implemented by any model." Not dead code — they define the contract for future work.

@@ -108,7 +108,7 @@ Complete reference for every model in TokenBase. Organized by category with desc
 | Trait | Fields | Use Case |
 |-------|--------|----------|
 | **Sourceable** | `sourceType`, `sourceId`, `sourceParty` | Data lineage — where it came from |
-| **Validatable** | `validity`, `confidence`, `validFrom`, `validUntil`, `verifiedBy` | Trust/accuracy tracking |
+| **Validatable** | `validity`, `confidence`, `validFrom`, `validUntil`, `verifiedBy` | Trust/accuracy tracking *(designed, not yet implemented by any model)* |
 
 ### Security
 
@@ -120,7 +120,7 @@ Complete reference for every model in TokenBase. Organized by category with desc
 
 | Trait | Fields | Use Case |
 |-------|--------|----------|
-| **Interchangeable** | `substitutes: { entityId, entityType, compatibility, bidirectional }[]` | Product alternatives, fallback options |
+| **Interchangeable** | `substitutes: { entityId, entityType, compatibility, bidirectional }[]` | Product alternatives, fallback options *(designed, not yet implemented by any model)* |
 
 ### Navigation
 
@@ -144,7 +144,7 @@ Small, self-contained models used as building blocks inside larger models.
 | `color` | `string` | Hex, default `#6b7280` |
 | `title` | `string \| null` | Display text |
 
-**Collection:** `tags`
+**Embeddable** — no `static collection`. Tags are always nested inside a parent model's `tags` array.
 
 ### Image
 
@@ -1200,11 +1200,35 @@ Models from predecessor projects that were absorbed or renamed in TokenBase.
 
 ---
 
+## Embeddable vs Storable Convention
+
+Models fall into two categories based on whether they declare `static collection`:
+
+**Storable models** have `static collection: string = 'collection_name'`. They are independently persisted as top-level documents in their own database collection. They carry full audit fields (id, createdAt, updatedAt, deletedAt, createdBy). The MCP controller layer will generate CRUD endpoints for these.
+
+**Embeddable models** have no `static collection`. They exist only as nested values inside a parent model's fields — never stored independently. They still have an `id` for client-side tracking but are saved/loaded as part of their parent document.
+
+| Embeddable Model | Typical Parent Fields |
+|---|---|
+| `Entity` | Base class (not used directly) |
+| `Filter` | `Queue.filters`, `View.filters` |
+| `Identifier` | `Product.identifiers`, `Unit.identifiers` |
+| `Image` | Any model implementing `Imageable` trait |
+| `Log` | `*.logs` arrays on various models |
+| `Measurement` | `Product.dimensions`, `Unit.dimensions` |
+| `Sort` | `View.sorts`, `ViewGroup.sorts` |
+| `Tag` | Any model implementing `Taggable` trait |
+
+**Convention:** If a model lacks `static collection`, treat it as embeddable. Do not generate standalone CRUD endpoints for it. It is persisted through its parent's write operations.
+
+---
+
 ## Statistics
 
 - **38 base model files** (models/, excluding index.ts and Traits.ts)
 - **27 traits** (Traits.ts)
 - **8 compound models** (compound/)
 - **27+ nested types** (exported from parent files: FlowAgent, NavigationNode, StyleField, MapNode, QueueItem, LogEntry, etc.)
-- **37 declared collections** (storable entities)
+- **30 storable models** (declare `static collection`)
+- **8 embeddable models** (no `static collection` — nested inside parent documents)
 - **100+ total exported types/classes**

@@ -238,12 +238,24 @@ These models existed in predecessor projects but were absorbed or renamed in Tok
 | `StatusChange` | `Log` | Status changes absorbed into Log as `level: 'status'` entries. Log is the universal audit trail. |
 | `GKStorable` | `Entity` | GameroomKit base class renamed. Same fields (id, timestamps, createdBy, soft-delete). |
 
+## Embeddable vs Storable
+
+Models with `static collection` are **storable** — persisted independently in their own database collection with full CRUD. Models without `static collection` are **embeddable** — nested inside a parent model's fields, saved as part of the parent document.
+
+**Embeddable models (8):** Entity, Filter, Identifier, Image, Log, Measurement, Sort, Tag
+
+See MODELS.md for the full convention definition and parent-field mapping.
+
+---
+
 ## Summary
 
 - **38 base model files** (in `src/models/`, excluding `index.ts` and `Traits.ts`)
 - **27 trait interfaces** (in `Traits.ts`)
 - **8 compound model files** (19 classes + types in `src/compound/`)
 - **27+ nested types** (exported from parent files, see table above)
+- **30 storable models** (declare `static collection`)
+- **8 embeddable models** (no `static collection`)
 - **100+ total exports**
 
 ### Sources
