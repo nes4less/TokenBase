@@ -73,6 +73,16 @@
 | `FinancialTerm` | Typed directional monetary operation (70+ term types) | TokenBase |
 | `FinancialTermType` | All recognized financial term types | TokenBase |
 | `FinancialDirection` | Up (adds) or down (subtracts) | TokenBase |
+
+## Time
+
+| Class / Type | Purpose | Origin |
+|---|---|---|
+| `TimeTerm` | Typed directional temporal operation (40+ term types) | TokenBase |
+| `TimeTermType` | All recognized time term types (duration, deadline, cooldown, backoff, sprint, etc.) | TokenBase |
+| `TimeDirection` | Forward (adds time) or backward (subtracts time) | TokenBase |
+| `TimeMode` | Relative duration or absolute point in time | TokenBase |
+| `TimeUnit` | milliseconds through years | TokenBase |
 | `MagnitudeType` | Percentage or absolute value | TokenBase |
 | `Discount` | Reusable discount definition (amount + percent) | CashierFu-Mobile |
 | `Tax` | Reusable tax definition (amount + percent) | CashierFu-Mobile |
@@ -147,4 +157,4 @@
 | GameroomKit (2017-2019) | Entity, all 15 traits, Address, Note, StatusChange, Option, OptionGroup, Timecard |
 | CashierFu-Kit | Barcode, Catalog, Container, Grid, Image, Measurement/Dimensions, Product, Tag, Unit |
 | CashierFu-Mobile / Desktop | Business, Discount, Order (+ Items/Discounts/Taxes/Payments), Reader, Tax, Till |
-| TokenBase (original) | Context, FinancialTerm, Function, Group, Identifier, Improvement, AgentFlow, Map, Relationship, Scope, Style, Unifier, DesignChoice, ChoiceVariant, BugPattern |
+| TokenBase (original) | Context, FinancialTerm, TimeTerm, Function, Group, Identifier, Improvement, AgentFlow, Map, Relationship, Scope, Style, Unifier, DesignChoice, ChoiceVariant, BugPattern, Bandwidth, CostMeasurement, Validity |
