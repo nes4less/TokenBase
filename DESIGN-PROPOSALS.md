@@ -1,6 +1,6 @@
 # TokenBase Phase 2+ — Design Proposals
 
-> **This file is reference context, not a task.** Five proposals for the remaining architecture work. Each has options, tradeoffs, and a recommendation. Decisions here unblock implementation.
+> **Decisions are locked.** All five architecture proposals have been reviewed and decided. This document is now the authoritative reference for Phase 2+ implementation.
 
 ---
 
@@ -77,7 +77,7 @@ Keep duplicating. Accept the boilerplate.
 
 **Tradeoff:** Every new Entity field requires touching 43 files. Tolerable now, painful as the system grows.
 
-**Recommendation: Option A.** Classical inheritance exists for exactly this case. The Entity base class already exists and works.
+**DECISION: Option C — Stay as-is.** The duplication is mechanical and harmless at this scale. Not worth the indirection cost. Entity class remains available if this is revisited later.
 
 ---
 
@@ -149,7 +149,7 @@ constructor(data: ProductCreateInput) {
 
 **Tradeoff:** Breaks internal hydration. Loading a Product from the database would need to bypass validation (the DB record is already valid). You'd need a separate `fromDB()` static method. Messy.
 
-**Recommendation: Option A.** Zod schemas co-located with models, validated at boundaries (MCP/API), not in constructors. This keeps the models clean, the validation explicit, and the MCP layer simple.
+**DECISION: Option A — Zod.** Schemas co-located with models, validated at boundaries (MCP/API), not in constructors. Schemas double as MCP tool input definitions. `z.infer<>` keeps types in sync automatically.
 
 ---
 
@@ -432,7 +432,7 @@ The encryption service handles all four. The caller specifies granularity per op
 | Handshake model (existing) | Needs extension (new fields) |
 | Data service (Proposal #5) | Needed for vault storage |
 | MCP controller (Proposal #3) | Needs encryption for scoped instances |
-| `libsodium` or `@noble/ciphers` | Runtime dependency for crypto |
+| `@noble/*` | Runtime dependency for crypto (Decision 3) |
 
 ### Implementation Order
 
@@ -443,7 +443,12 @@ The encryption service handles all four. The caller specifies granularity per op
 5. Build destruction flow (Handshake broken → delete vault → keys gone)
 6. Integrate with MCP generation (scoped MCP encrypted at rest)
 
-**Recommendation: Option A.** Handshake-derived keys using ECDH + HKDF. Commitment-based ZK for near-term verification, with a path to homomorphic if needed later. Crypto via `@noble/ciphers` (audited, zero deps, pure JS).
+**DECISION: Option A — Noble (`@noble/ciphers` + `@noble/curves` + `@noble/hashes`).** Handshake-derived keys using ECDH + HKDF. Pure JS, audited, zero deps, works everywhere TokenBase gets imported.
+
+**DECISION (ZK): Hash-based commitments as default + server-mediated ZK as opt-in provider.**
+- Layer A (local): `commit(secret, nonce) → hash` using `@noble/hashes`. Always available, no server needed. Covers Handshake commitments, ownership proofs, integrity checks.
+- Layer B (server-mediated, opt-in): Both parties send encrypted inputs to a ZK prover service. Server runs circuit, returns proof + public signals, discards raw data. Neither party sees the other's data.
+- `src/security/proofs/IProofProvider.ts` defines the interface. Models declare `static proofLevel = 'commitment' | 'zk'` to opt in.
 
 ---
 
@@ -451,7 +456,7 @@ The encryption service handles all four. The caller specifies granularity per op
 
 **Problem:** The persistence layer. KIT-PLAN says "parked until language questions resolved" — but the language (Proposal #6 in LANGUAGE.md) is a long-term vision. The system needs persistence now for Phases 2-4 (Token Remote, Token Sports). The question is: what serves current needs without blocking the language future?
 
-**Current state:** TokenSports uses MongoDB (via Supabase for realtime). No shared data service. Each app rolls its own persistence.
+**Current state:** The ecosystem is deployed on Supabase (Postgres). No shared data service. Each app rolls its own persistence.
 
 ### Design Principle
 
@@ -512,25 +517,28 @@ interface ModelDefinition<T> {
 
 5. **Realtime subscriptions.** `subscribe()` returns an `AsyncIterable` of change events. Adapters implement this via their native mechanism (Mongo change streams, Supabase realtime, Postgres LISTEN/NOTIFY).
 
-### Adapter: MongoDB (Current, for Phases 2-4)
+### Adapter: Supabase/Postgres (Primary)
 
-TokenSports already uses MongoDB. Build the first adapter for Mongo.
+The ecosystem is already deployed on Supabase. Build the first adapter for Postgres via Supabase client.
 
 ```ts
-class MongoAdapter implements TokenData {
+class SupabaseAdapter implements TokenData {
   declare<T extends Entity>(model: ModelDefinition<T>): Collection<T> {
-    // Ensure collection exists with correct indexes
-    // Return a Collection implementation backed by Mongo
+    // Map model to Supabase table
+    // Nested types (Tags, MetadataEntries) stored as JSONB columns
+    // Return a Collection implementation backed by Supabase
   }
 }
 ```
 
-**Why Mongo for now:**
-- TokenSports is already on it
-- Document model maps naturally to TokenBase's class-per-model pattern
-- Change streams for realtime
-- Good enough for Phases 2-4
-- Not a permanent commitment — the adapter interface means swapping later is straightforward
+**Why Supabase:**
+- Ecosystem is already deployed there — Postgres is the primary database
+- Realtime built-in via Supabase subscriptions (no change streams setup)
+- Row-level security for scope enforcement at the database level
+- JSONB columns handle nested types (Tags, MetadataEntries, OrderItems)
+- `static collection` maps to table names
+
+**Nested type strategy:** Models with arrays of sub-objects (e.g., `tags: Tag[]`, `metadata: MetadataEntry[]`) use JSONB columns. Postgres JSONB supports indexing, querying into arrays, and partial updates — no need to normalize into join tables.
 
 ### Adapter: Future (Post-Language)
 
@@ -540,21 +548,21 @@ When the language layer arrives, it generates persistence schemas from model def
 
 | Dependency | Status |
 |---|---|
-| Entity base class (Proposal #1) | `T extends Entity` constraint |
+| Entity base class (Proposal #1) | `T extends Entity` constraint (staying as-is, still works) |
 | Validation schemas (Proposal #2) | `ModelDefinition.schema` |
 | Security layer (Proposal #4) | Encryption at rest |
 | MCP controller (Proposal #3) | Scope enforcement |
-| MongoDB driver | Already in TokenSports |
+| Supabase client | `@supabase/supabase-js` |
 
 ### Implementation Order
 
 1. Define `TokenData`, `Collection`, `ModelDefinition` interfaces
-2. Build `MongoAdapter` implementing `TokenData`
+2. Build `SupabaseAdapter` implementing `TokenData`
 3. Add automatic Log entry on every mutation
-4. Add scope partitioning (scopeId on every query)
+4. Add scope partitioning (scopeId on every query, RLS policies)
 5. Add encryption at rest (via EncryptionService from Proposal #4)
-6. Add realtime subscriptions (Mongo change streams)
-7. Migrate TokenSports to use the data service instead of raw Mongo calls
+6. Add realtime subscriptions (Supabase realtime channels)
+7. Migrate TokenSports to use the data service instead of raw database calls
 
 ---
 
@@ -562,27 +570,22 @@ When the language layer arrives, it generates persistence schemas from model def
 
 ```
                 ┌──────────────┐
-                │ 1. Entity    │  ← No dependencies, pure refactor
-                │    Extension │
-                └──────┬───────┘
-                       │
-                ┌──────▼───────┐
-                │ 2. Runtime   │  ← Depends on Entity (for base schema)
-                │    Validation│
+                │ 2. Runtime   │  ← First. No blocking dependencies.
+                │    Validation│     Entity stays as-is (Decision 1).
                 └──────┬───────┘
                        │
           ┌────────────┼────────────┐
-          │            │            │
-   ┌──────▼───────┐   │   ┌────────▼─────┐
-   │ 3. MCP       │   │   │ 4. Security  │  ← Can build in parallel
-   │    Controller│   │   │    Layer     │
-   └──────┬───────┘   │   └────────┬─────┘
-          │            │            │
-          └────────────┼────────────┘
+          │                         │
+   ┌──────▼───────┐       ┌────────▼─────┐
+   │ 3. MCP       │       │ 4. Security  │  ← Can build in parallel
+   │    Controller│       │    Layer     │
+   └──────┬───────┘       └────────┬─────┘
+          │                         │
+          └────────────┬────────────┘
                        │
                 ┌──────▼───────┐
-                │ 5. Data      │  ← Needs all four above
-                │    Service   │
+                │ 5. Data      │  ← Needs validation + security + MCP
+                │    Service   │     Supabase/Postgres adapter
                 └──────────────┘
 ```
 
@@ -590,17 +593,19 @@ When the language layer arrives, it generates persistence schemas from model def
 
 | Phase | Work | Estimated Scope |
 |---|---|---|
-| 2a | Entity extension + Validation schemas | Mechanical refactor + new files |
-| 2b | MCP definition + Security extensions (parallel) | New modules, Handshake changes |
-| 2c | Data service interface + Mongo adapter | New module, TokenSports migration |
+| 2a | Zod validation schemas for all models | ~38 schema files, co-located |
+| 2b | MCP definition + Security layer (parallel) | New modules, Handshake extensions, commitment/ZK interfaces |
+| 2c | Data service interface + Supabase adapter | New module, JSONB strategy for nested types |
 | 2d | Integration (MCP ↔ Security ↔ Data) | Wiring, end-to-end testing |
 
 ---
 
-## Decisions Needed From You
+## Decisions — Locked
 
-1. **Entity extension** — Option A (extends), B (composition), or C (stay as-is)?
-2. **Validation** — Zod (Option A), decorators (B), JSON Schema (C), or in-constructor (D)?
-3. **Security crypto library** — `@noble/ciphers` (audited, pure JS) or `libsodium-wrappers` (C bindings, faster)?
-4. **ZK approach** — Commitment schemes (hash-based, simpler) now, or invest in homomorphic encryption from the start?
-5. **Data service first adapter** — MongoDB (matches TokenSports) or Supabase (has realtime built-in)?
+| # | Decision | Choice | Rationale |
+|---|---|---|---|
+| 1 | Entity extension | **Stay as-is (C)** | Duplication is mechanical and harmless at this scale |
+| 2 | Validation library | **Zod (A)** | Boundary validation, schemas double as MCP tool input, `z.infer<>` keeps types in sync |
+| 3 | Security crypto | **Noble (A)** | `@noble/ciphers` + `@noble/curves` + `@noble/hashes` — audited, pure JS, zero deps, portable |
+| 4 | Zero-knowledge | **Hash commitments + opt-in ZK server** | Layer A (local hashes) default, Layer B (server-mediated ZK prover) for models that need double-blind |
+| 5 | Data service adapter | **Supabase/Postgres (B)** | Ecosystem is already deployed on Supabase, Postgres is primary |
