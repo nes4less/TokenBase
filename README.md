@@ -48,7 +48,7 @@ All base models, traits, and compound models are exported from the package root.
 | **Views & Nav** | Navigation, View, ViewGroup, ViewState |
 | **Agent** | AgentFlow, Improvement |
 | **Design Knowledge** | BugPattern, DesignChoice, RuleOutcome |
-| **Cost & Validity** | Bandwidth |
+| **Cost & Certainty** | Bandwidth |
 | **Compound** | Business, Container, Order, Product, Reader, Till, Timecard, Unit |
 
 ## Project Files

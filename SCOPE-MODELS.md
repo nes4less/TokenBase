@@ -160,14 +160,14 @@
 | `RuleOutcome` | Evidence of a rule's real-world effect — followed, violated, prevented, recurred, overridden, retired | TokenBase |
 | `OutcomeType` | followed, violated, prevented, recurred, overridden, retired | TokenBase |
 
-## Cost & Validity
+## Cost & Certainty
 
 | Class / Type | Purpose | Origin |
 |---|---|---|
 | `Bandwidth` | Predicted processing cost for an entity before execution | TokenBase |
 | `CostMeasurement` | Actual observed cost after execution, paired with prediction | TokenBase |
 | `CostUnit` | Resource type being measured (tokens, ms, cpu-ms, bytes, calls, steps, dollars) | TokenBase |
-| `Validity` | Degree of certainty for any claim — likelihood, potential accuracy, consistency, observation count | TokenBase |
+| `Certainty` | Degree of certainty for any claim — likelihood, potential accuracy, consistency, observation count | TokenBase |
 
 ## Compound Models (`src/compound/`)
 
@@ -225,7 +225,7 @@ These types are exported from their parent model files, not as standalone files.
 | `Dimensions` | `Measurement.ts` | Physical measurements (width, height, depth, weight) |
 | `Measure<U>` | `Measurement.ts` | Numeric value + unit pair (generic) |
 | `MetadataEntry` | `Traits.ts` | Classified key/value entry |
-| `Validity` | `Bandwidth.ts` | Degree of certainty — likelihood, accuracy, consistency |
+| `Certainty` | `Bandwidth.ts` | Degree of certainty — likelihood, accuracy, consistency |
 
 ## Deprecated / Renamed Models
 

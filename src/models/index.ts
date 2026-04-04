@@ -59,5 +59,5 @@ export * from './BugPattern'
 export * from './DesignChoice'
 export * from './RuleOutcome'
 
-// ─── Cost & Validity ───
+// ─── Cost & Certainty ───
 export * from './Bandwidth'

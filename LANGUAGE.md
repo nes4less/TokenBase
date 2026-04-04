@@ -6,7 +6,7 @@ The system exists to solve three problems:
 
 **1. Convolution** — Too many layers between wanting something and getting it. Every hop is latency, every translation is potential corruption. The language compiles direct paths. The MCP is your exact interface, nothing more. Content servers don't interpret, they deliver.
 
-**2. Data invalidity** — Bad data propagates because nothing enforces truth at the source. Every entry is classified (primary/meta/derived). Every piece has Source and Validity. The ledger is immutable. Zero-knowledge verification confirms without exposing. The system won't accept unvalidated Tokens.
+**2. Data invalidity** — Bad data propagates because nothing enforces truth at the source. Every entry is classified (primary/meta/derived). Every piece has Source and Certainty. The ledger is immutable. Zero-knowledge verification confirms without exposing. The system won't accept unvalidated Tokens.
 
 **3. Context loss** — AI works with scraped, partial, stale context. The kit solves this with the repo standard (GOALS, KIT-PLAN, INVENTORY, IMPROVEMENTS), scoped models, classified metadata, and the Improvement pipeline that continuously refines raw data into rules. Context isn't scraped — it's structured, scoped, and always current.
 

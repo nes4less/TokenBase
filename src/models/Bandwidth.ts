@@ -115,7 +115,7 @@ export type UncertaintyRisk =
   | 'none'           // No identified risk
 
 /**
- * Validity — degree of certainty for any claim in the system.
+ * Certainty — degree of certainty for any claim in the system.
  *
  * Attaches to any record that makes a claim: a bandwidth prediction,
  * a design choice, a bug pattern, a rule, a measurement. Tracks how
@@ -125,8 +125,8 @@ export type UncertaintyRisk =
  * fabrication. Observed data risks sampling bias. Calculated data
  * compounds the uncertainty of its inputs.
  */
-export class Validity {
-  static collection: string = 'validities'
+export class Certainty {
+  static collection: string = 'certainties'
   /** How well this fits known/established patterns (0-1) */
   consistency: number
   createdAt: string
@@ -146,7 +146,7 @@ export class Validity {
   /** Where did this data come from */
   source: DataSource
   updatedAt: string
-  constructor(data?: Partial<Validity>) {
+  constructor(data?: Partial<Certainty>) {
     this.consistency = data?.consistency ?? 0
     this.createdAt = data?.createdAt || generateDateString()
     this.entityId = data?.entityId || ''

@@ -15,13 +15,13 @@ Each recipe has:
 - **Steps** — how to assemble
 - **Gotchas** — what goes wrong
 
-**Validity** follows the Bandwidth model: most compositions have high confidence and flow with the stream. Outliers that deviate are valid but carry higher risk — the system doesn't block them, it makes the deviation visible. Every recipe carries an implicit Validity score:
+**Certainty** follows the Bandwidth model: most compositions have high confidence and flow with the stream. Outliers that deviate are valid but carry higher risk — the system doesn't block them, it makes the deviation visible. Every recipe carries an implicit Certainty score:
 
-- **High validity** (taco) — `likelihood: 0.85+, confidence: 0.9+`. Standard pattern, well-tested, most models follow this. Default assumption.
-- **Medium validity** — `likelihood: 0.5-0.85, confidence: 0.6-0.9`. Works but stretches the pattern. Document why you deviated.
-- **Low validity** (choco taco) — `likelihood: <0.5, confidence: <0.6`. Unusual composition. Still valid, but the system should surface this as a deviation. Log it, flag it, let a reviewer decide.
+- **High certainty** (taco) — `likelihood: 0.85+, confidence: 0.9+`. Standard pattern, well-tested, most models follow this. Default assumption.
+- **Medium certainty** — `likelihood: 0.5-0.85, confidence: 0.6-0.9`. Works but stretches the pattern. Document why you deviated.
+- **Low certainty** (choco taco) — `likelihood: <0.5, confidence: <0.6`. Unusual composition. Still valid, but the system should surface this as a deviation. Log it, flag it, let a reviewer decide.
 
-When composing models, attach a `Validity` record to the composition itself — not just the data flowing through it. This makes pattern deviation visible at the recipe level, not just at runtime. The `sourceType` field on Validity tracks whether the score is `empirical` (observed from usage), `theoretical` (estimated by an agent), or `inherited` (propagated from a parent recipe).
+When composing models, attach a `Certainty` record to the composition itself — not just the data flowing through it. This makes pattern deviation visible at the recipe level, not just at runtime. The `sourceType` field on Certainty tracks whether the score is `empirical` (observed from usage), `theoretical` (estimated by an agent), or `inherited` (propagated from a parent recipe).
 
 **Stamped vs Assembled:** Models can be classified two ways. *Stamped* = Typeable trait applied directly (intrinsic identity). *Assembled* = classification derived through Context (contextual identity that may differ by where the entity appears). Both can coexist on the same entity.
 

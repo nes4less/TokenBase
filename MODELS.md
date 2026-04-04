@@ -1028,7 +1028,7 @@ Models that define how data is displayed and how users move through the applicat
 
 ---
 
-## Cost & Validity
+## Cost & Certainty
 
 ### Bandwidth
 

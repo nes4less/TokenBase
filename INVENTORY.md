@@ -43,7 +43,7 @@
 | ViewState | Views & Nav | Runtime snapshot of a View's condition — selected, scroll, loading, error |
 | AgentFlow | Agent | Processing pipeline composed of agents |
 | Improvement | Agent | Data moving through refinement pipeline (raw → rule) |
-| Bandwidth | Cost & Validity | Predicted processing cost for an entity before execution |
+| Bandwidth | Cost & Certainty | Predicted processing cost for an entity before execution |
 | BugPattern | Design Knowledge | Preventable issue captured for automatic rule generation |
 | DesignChoice | Design Knowledge | Recorded design decision with scope, variants, and preference |
 | RuleOutcome | Design Knowledge | Evidence of a rule's real-world effect — tracks whether rules were followed, violated, prevented problems, or recurred |
