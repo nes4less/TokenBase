@@ -30,9 +30,9 @@ The kit provides everything needed to build any application from the ground up u
 ├─────────────────────────────────────────────┤
 │  Data Service — Pub/Sub persistence         │
 │  Declare models → get storage + realtime    │
-│  (Parked until language questions resolved) │
+│  Supabase/Postgres adapter (Decision 5)    │
 ├─────────────────────────────────────────────┤
-│  Base Models (38) + Traits (27)             │
+│  Base Models (39) + Traits (27)             │
 │  The vocabulary — what things are           │
 ├─────────────────────────────────────────────┤
 │  Language Layer (future)                    │
@@ -47,10 +47,10 @@ The kit provides everything needed to build any application from the ground up u
 
 ### 1. Models (✅ Done)
 
-38 base models + 27 traits. The irreducible primitives.
+39 base models + 27 traits. The irreducible primitives.
 
 **Base Models:**
-AgentFlow, Async, Bandwidth, BugPattern, Context, DesignChoice, Entity, Filter, FinancialTerm, Function, Grid, Group, Handshake, Identifier, Image, Improvement, Instruction, Interaction, Log, Map, Measurement, Navigation, Note, Prompt, Protocol, Queue, Relationship, Scope, Set, Sort, Style, Tag, Thread, TimeTerm, Unifier, View, ViewGroup, ViewState
+AgentFlow, Async, Bandwidth, BugPattern, Context, DesignChoice, Entity, Filter, FinancialTerm, Function, Grid, Group, Handshake, Identifier, Image, Improvement, Instruction, Interaction, Log, Map, Measurement, Navigation, Note, Prompt, Protocol, Queue, Relationship, RuleOutcome, Scope, Set, Sort, Style, Tag, Thread, TimeTerm, Unifier, View, ViewGroup, ViewState
 
 **Traits:**
 Nameable, Subnameable, Describable, Identifiable, Indexable, Rankable, Colorable, Imageable, Statusable, Noteable, Chargeable, Saleable, Addressable, Metadatable (classified entries), Taggable, Polymorphic, Expirable, Attachable, Locatable, Accessible, Sourceable, Validatable, Securable, Interchangeable, Linkable, Typeable
@@ -77,7 +77,7 @@ How to compose models into applications. This is the "recipe book" that agents c
 
 **Format:** Structured markdown that agents can parse. Each recipe has: name, intent, models used, composition pattern, example, gotchas.
 
-### 3. MCP Controller (📋 Needs Architecture)
+### 3. MCP Controller (✅ Architecture Locked — see DESIGN-PROPOSALS.md §3)
 
 The interface through which agents access and operate on the system.
 
@@ -107,7 +107,7 @@ The interface through which agents access and operate on the system.
 - User's relationship changes → old MCP destroyed → new MCP generated (or nothing)
 - Handshake breaks → MCP destroyed. No revocation dance. Just gone.
 
-### 4. Security Layer (📋 Needs Design)
+### 4. Security Layer (✅ Designed — see DESIGN-PROPOSALS.md §4)
 
 Handshake-gated, zero-knowledge verification.
 
@@ -128,20 +128,18 @@ Handshake-gated, zero-knowledge verification.
 - Stolen credentials: the MCP is scoped, so the blast radius is limited to what that MCP could do. And if the Handshake is broken (detected breach), even that goes away.
 - Blind verification: payment processing where merchant doesn't see card number, bank doesn't see purchase, network doesn't see either. Each validates their piece.
 
-### 5. Data Service (⏸ Parked)
+### 5. Data Service (✅ Designed — see DESIGN-PROPOSALS.md §5)
 
 Pub/Sub persistence layer. Declare models, get storage + realtime + sync.
 
-**Parked because:** The language design may influence database choice. If TokenBase compiles to a language with its own type system, the persistence layer should be native to that language, not bolted on.
+**Decision:** Supabase/Postgres adapter as the primary implementation (Decision 5). Interface + swappable adapters design — when the language layer arrives, a new adapter wraps whatever that persistence engine is. The `TokenData` interface doesn't change.
 
-**What we know it needs:**
-- Realtime subscriptions (already using Supabase for this)
-- Model-aware storage (not generic tables — the DB understands the model structure)
-- Scope-aware queries (data is partitioned by scope)
-- Log integration (every mutation is a LogEntry)
-- Encrypted at rest (ties to security layer)
-
-**Decision point:** After language questions are resolved in LANGUAGE.md
+**What it provides:**
+- Realtime subscriptions (Supabase realtime channels)
+- Model-aware storage (JSONB for nested types, typed queries)
+- Scope-aware queries (data partitioned by scope, RLS policies)
+- Log integration (every mutation produces a LogEntry automatically)
+- Encrypted at rest (ties to security layer, Decision 4)
 
 ### 6. Language Layer (⏸ Parked, Long-term)
 
@@ -155,12 +153,12 @@ Documented in LANGUAGE.md. The cavemen-to-AI arc. Layer 0 machine primitives →
 
 ```
 Phase 1: Stabilize (NOW)
-├── ✅ Models locked (38 base + 27 traits)
+├── ✅ Models locked (39 base + 27 traits)
 ├── ✅ Compound models separated
 ├── ✅ INVENTORY.md — complete model list
 ├── ✅ MODELS.md — full contextual docs with descriptions/use cases
 ├── ✅ Instruction set — composition recipes (INSTRUCTIONS.md)
-└── ✅ MCP architecture — resolved: instruction-driven, not generation-engine (see Key Design Decisions)
+└── ✅ MCP architecture — resolved: declarative manifest → scoped instances generated per user/role (see DESIGN-PROPOSALS.md §3)
 
 Phase 2: Build Token Remote (NEXT)
 ├── Use kit vocabulary for all new features
@@ -203,13 +201,13 @@ Phase 5: Re-abstract Everything
 | MCP lifecycle | One per user, stamped at creation, destroyed on revocation | No permission tables, no runtime checks. Structural security. |
 | Encryption | All granularities (field/row/scope/verification) | Granular is always more useful than coarse. Build fine, use coarse when appropriate. |
 | Security model | Zero-knowledge verification | Nobody sees the full picture. Each party validates their fragment. Handshake = key exchange. |
-| Data service | Parked | Language design may influence DB. Don't lock in a persistence layer before the type system is decided. |
+| Data service | Supabase/Postgres (primary adapter) | Ecosystem already deployed on Supabase. Interface + swappable adapters — language layer can introduce a new adapter later. |
 | Metadata | Self-classifying entries | Every piece of data declares: primary, meta, extended, derived, or system. No guessing. |
 | Compound models | Separate from base | Base models are primitives. Compounds are recipes. Different layer. |
 | What's a base model | If it can't be composed from existing primitives | Only add when composition fails. If it can be composed, document the recipe instead. |
 | Typeable + Context | Both — stamped and assembled | Context implements Typeable (assembled identity), but standalone Typeable trait remains for direct classification (stamped identity). A model can be classified either way. Stamped = intrinsic identity. Assembled = contextual identity that may differ by where the entity appears. |
 | Trait composition | Emergent patterns with Validity scoring | No hard constraints on which traits a model can mix. Common patterns emerge naturally and are documented with Validity (confidence/likelihood). Outliers can deviate — the system doesn't block them, it makes the deviation visible. Most recipes are tacos; some are choco tacos. |
-| MCP architecture | Instruction-driven, not generation-engine | The MCP server reads recipes (Instructions) to determine capabilities. Scoping = which recipes are in scope for this user/role. No complex code generation layer — just recipe lookup from the Instruction Set. |
+| MCP architecture | Declarative manifest → generated scoped instances | Master MCP defines all capabilities. `generateScopedMCP()` produces static artifacts per user/role. Unauthorized capabilities don't exist in the output. See DESIGN-PROPOSALS.md §3. |
 | MCP guardrails | Structural absence, not runtime enforcement | Scoped MCP instances are generated containing only the models/tools/instructions for that role. Guardrails aren't locks — the unauthorized capabilities simply don't exist in that instance. No ACL to bypass, no elevation path, no attack surface. |
 
 ---
@@ -217,9 +215,9 @@ Phase 5: Re-abstract Everything
 ## Open Questions
 
 1. **Language design** — what does the TokenBase language look like? How does the type system map to compilation targets? (LANGUAGE.md)
-2. **Database** — what persistence engine serves the language natively? (Blocked on #1)
-3. **MCP generation mechanics** — given the instruction-driven architecture, what's the actual compilation step from master recipe book → scoped instance? Template engine? AST subset? (Unblocked by Instruction Set — answer should emerge from recipe structure)
-4. **Key management** — where do Handshake keys live? HSM? Per-user encrypted vault? Ephemeral? (Tied to security layer design)
+2. ~~**Database**~~ — **Resolved.** Supabase/Postgres as primary adapter (Decision 5). Future language layer can introduce a new adapter without changing the interface.
+3. ~~**MCP generation mechanics**~~ — **Resolved.** Declarative manifest → `generateScopedMCP()` pure function → static artifact per user/role (DESIGN-PROPOSALS.md §3).
+4. ~~**Key management**~~ — **Resolved.** Handshake-derived keys via ECDH + HKDF using `@noble/*`. Private keys device-local, shared secret re-derived per session, destroyed when Handshake breaks (DESIGN-PROPOSALS.md §4).
 
 ---
 

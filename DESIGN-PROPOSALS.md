@@ -6,7 +6,7 @@
 
 ## 1. Entity Base Class Extension
 
-**Problem:** Every model duplicates 5 Entity fields (id, createdAt, updatedAt, createdBy, deletedAt) and their constructor logic. That's ~10 lines × 43 models = 430 lines of boilerplate. More importantly, if Entity gains a field (e.g., `version` for optimistic locking), every model needs manual updates.
+**Problem:** Every model duplicates 5 Entity fields (id, createdAt, updatedAt, createdBy, deletedAt) and their constructor logic. That's ~10 lines × 39 base models = 430 lines of boilerplate. More importantly, if Entity gains a field (e.g., `version` for optimistic locking), every model needs manual updates.
 
 **Current state:**
 ```ts
@@ -29,7 +29,7 @@ export class Product {
 }
 ```
 
-### Option A: `extends Entity` (Recommended)
+### Option A: `extends Entity`
 
 Models extend Entity. Each constructor calls `super(data)` to initialize the 5 base fields, then initializes its own fields.
 
@@ -593,7 +593,7 @@ When the language layer arrives, it generates persistence schemas from model def
 
 | Phase | Work | Estimated Scope |
 |---|---|---|
-| 2a | Zod validation schemas for all models | ~38 schema files, co-located |
+| 2a | Zod validation schemas for all models | ~39 schema files, co-located |
 | 2b | MCP definition + Security layer (parallel) | New modules, Handshake extensions, commitment/ZK interfaces |
 | 2c | Data service interface + Supabase adapter | New module, JSONB strategy for nested types |
 | 2d | Integration (MCP ↔ Security ↔ Data) | Wiring, end-to-end testing |
@@ -602,10 +602,12 @@ When the language layer arrives, it generates persistence schemas from model def
 
 ## Decisions — Locked
 
+> **Note:** Decisions are numbered independently from proposals. Proposal §4 (Security) produced two decisions (D3: crypto library, D4: ZK approach).
+
 | # | Decision | Choice | Rationale |
 |---|---|---|---|
-| 1 | Entity extension | **Stay as-is (C)** | Duplication is mechanical and harmless at this scale |
-| 2 | Validation library | **Zod (A)** | Boundary validation, schemas double as MCP tool input, `z.infer<>` keeps types in sync |
-| 3 | Security crypto | **Noble (A)** | `@noble/ciphers` + `@noble/curves` + `@noble/hashes` — audited, pure JS, zero deps, portable |
-| 4 | Zero-knowledge | **Hash commitments + opt-in ZK server** | Layer A (local hashes) default, Layer B (server-mediated ZK prover) for models that need double-blind |
-| 5 | Data service adapter | **Supabase/Postgres (B)** | Ecosystem is already deployed on Supabase, Postgres is primary |
+| D1 | Entity extension | **Stay as-is (C)** | Duplication is mechanical and harmless at this scale |
+| D2 | Validation library | **Zod (A)** | Boundary validation, schemas double as MCP tool input, `z.infer<>` keeps types in sync |
+| D3 | Security crypto | **Noble (A)** | `@noble/ciphers` + `@noble/curves` + `@noble/hashes` — audited, pure JS, zero deps, portable |
+| D4 | Zero-knowledge | **Hash commitments + opt-in ZK server** | Layer A (local hashes) default, Layer B (server-mediated ZK prover) for models that need double-blind |
+| D5 | Data service adapter | **Supabase/Postgres (B)** | Ecosystem is already deployed on Supabase, Postgres is primary |

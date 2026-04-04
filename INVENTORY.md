@@ -4,7 +4,7 @@
 
 ---
 
-## Implemented — Base Models (38 files in `src/models/`)
+## Implemented — Base Models (39 files in `src/models/`)
 
 | Model | Category | Purpose |
 |---|---|---|
@@ -46,6 +46,7 @@
 | Bandwidth | Cost & Validity | Predicted processing cost for an entity before execution |
 | BugPattern | Design Knowledge | Preventable issue captured for automatic rule generation |
 | DesignChoice | Design Knowledge | Recorded design decision with scope, variants, and preference |
+| RuleOutcome | Design Knowledge | Evidence of a rule's real-world effect — tracks whether rules were followed, violated, prevented problems, or recurred |
 
 ## Implemented — Traits (27 interfaces in `Traits.ts`)
 
@@ -93,7 +94,7 @@
 
 ## Totals
 
-- **38 base model files** (40 including Traits.ts and index.ts)
+- **39 base model files** (41 including Traits.ts and index.ts)
 - **27 trait interfaces**
 - **8 compound models**
 - **100+ exported classes, types, and enums total**

@@ -157,6 +157,8 @@
 | `DesignDomain` | Domain a choice applies to (auth, ui, data-model, api, etc.) | TokenBase |
 | `BugPattern` | Preventable issue captured for automatic rule generation | TokenBase |
 | `BugSeverity` | low, medium, high, critical | TokenBase |
+| `RuleOutcome` | Evidence of a rule's real-world effect — followed, violated, prevented, recurred, overridden, retired | TokenBase |
+| `OutcomeType` | followed, violated, prevented, recurred, overridden, retired | TokenBase |
 
 ## Cost & Validity
 
@@ -174,7 +176,7 @@
 | `Business` | Merchant / store entity with Stripe integration | CashierFu-Mobile + GameroomKit GKStore |
 | `Container` | Physical storage location (bin, box, shelf) | CashierFu-Kit |
 | `ContainerStatus` | Timestamped container state entry | CashierFu-Kit |
-| `Grid` (compound) | Spatial layout (POS buttons, warehouse) — re-exported from models | CashierFu-Kit |
+| `Grid` | Spatial layout (POS buttons, warehouse) — lives in `src/models/`, re-exported by compound index | CashierFu-Kit |
 | `GridSlot` | Single position within a grid | CashierFu-Kit |
 | `Order` | Complete sales transaction with calculations | CashierFu-Mobile + GameroomKit |
 | `OrderItem` | Line item snapshot at time of sale | CashierFu-Mobile + GameroomKit |
@@ -250,11 +252,11 @@ See MODELS.md for the full convention definition and parent-field mapping.
 
 ## Summary
 
-- **38 base model files** (in `src/models/`, excluding `index.ts` and `Traits.ts`)
+- **39 base model files** (in `src/models/`, excluding `index.ts` and `Traits.ts`)
 - **27 trait interfaces** (in `Traits.ts`)
 - **8 compound model files** (19 classes + types in `src/compound/`)
 - **27+ nested types** (exported from parent files, see table above)
-- **30 storable models** (declare `static collection`)
+- **31 storable models** (declare `static collection`)
 - **8 embeddable models** (no `static collection`)
 - **100+ total exports**
 

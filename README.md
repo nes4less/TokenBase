@@ -6,7 +6,7 @@ Shared foundation for TokenRemote, TokenSports, CashierFu, and future Token proj
 
 ## What's In Here
 
-- **38 base models** — the irreducible primitives (Entity, Context, Group, Scope, Function, View, Queue, Filter, Sort, Log, Bandwidth, DesignChoice, BugPattern, Unifier, etc.)
+- **39 base models** — the irreducible primitives (Entity, Context, Group, Scope, Function, View, Queue, Filter, Sort, Log, Bandwidth, DesignChoice, BugPattern, RuleOutcome, Unifier, etc.)
 - **27 traits** — composable interfaces (Nameable, Statusable, Chargeable, Expirable, Locatable, Typeable, etc.)
 - **8 compound models** — domain-specific compositions from CashierFu/GameroomKit (Business, Order, Product, Till, etc.)
 - **utils/** — UUID generation, date strings
@@ -27,7 +27,7 @@ All base models, traits, and compound models are exported from the package root.
 
 ## Design Principles
 
-- Flat models, no inheritance hierarchies
+- Flat models by default — inheritance reserved for security primitives (KeyVault extends Entity, planned)
 - Compose through references, not nesting
 - Context handles display/scoping, models handle logic
 - Every model gets base CRUD properties (id, timestamps, createdBy, soft-delete)
@@ -47,7 +47,7 @@ All base models, traits, and compound models are exported from the package root.
 | **Time** | TimeTerm (deadline, duration, buffer, sprint, etc.) |
 | **Views & Nav** | Navigation, View, ViewGroup, ViewState |
 | **Agent** | AgentFlow, Improvement |
-| **Design Knowledge** | BugPattern, DesignChoice |
+| **Design Knowledge** | BugPattern, DesignChoice, RuleOutcome |
 | **Cost & Validity** | Bandwidth |
 | **Compound** | Business, Container, Order, Product, Reader, Till, Timecard, Unit |
 
@@ -58,8 +58,14 @@ All base models, traits, and compound models are exported from the package root.
 | `GOALS.md` | End-state vision |
 | `KIT-PLAN.md` | Architecture, decisions, execution order |
 | `INVENTORY.md` | Complete model list with counts |
+| `MODELS.md` | Full contextual docs — descriptions, fields, relationships, use cases |
 | `SCOPE-MODELS.md` | Every exported class/interface/type with purpose and origin |
+| `INSTRUCTIONS.md` | Composition recipes — how to build apps from base models |
+| `DESIGN-PROPOSALS.md` | Phase 2+ architecture proposals and locked decisions |
+| `IMPROVEMENTS.md` | Append-only observations log |
 | `LANGUAGE.md` | Long-term language/compiler vision |
+| `AGENT-ARCHITECTURE.md` | Agent system architecture |
+| `RENDER-PROTOCOL.md` | Rendering protocol specification |
 
 ## Build
 

@@ -6,21 +6,21 @@
 
 ### ~~Inconsistent `static collection` across models~~ — RESOLVED
 
-The split is intentional: 30 storable models declare `static collection`, 8 embeddable models don't. Convention now documented in MODELS.md and SCOPE-MODELS.md with a full embeddable/storable table and MCP implications.
+The split is intentional: 31 storable models declare `static collection`, 8 embeddable models don't. Convention now documented in MODELS.md and SCOPE-MODELS.md with a full embeddable/storable table and MCP implications.
 
 **Embeddable models:** Entity, Filter, Identifier, Image, Log, Measurement, Sort, Tag
 
 ### ~~Model count drift in KIT-PLAN.md~~ — RESOLVED
 
-All docs now standardized to **38 base model files**. The drift was caused by undercounting (Bandwidth, BugPattern, DesignChoice, Unifier were missing from various lists) and ghost entries (Address listed but no file existed, Barcode listed separately but lives in Identifier.ts). Fixed across README, INVENTORY, SCOPE-MODELS, MODELS, and KIT-PLAN.
+All docs now standardized to **39 base model files** (RuleOutcome was added after the initial count). The drift was caused by undercounting (Bandwidth, BugPattern, DesignChoice, RuleOutcome, Unifier were missing from various lists) and ghost entries (Address listed but no file existed, Barcode listed separately but lives in Identifier.ts). Fixed across README, INVENTORY, SCOPE-MODELS, MODELS, and KIT-PLAN.
 
-### Compound models don't extend Entity
+### ~~Compound models don't extend Entity~~ — RESOLVED (Decision 1: Stay as-is)
 
-Base models like Group, Context, Scope all independently declare `id`, `createdAt`, `createdBy`, `deletedAt`, `updatedAt` with the same defaults. Entity exists as a base class for exactly this purpose, but no model extends it. The compound models (Business, Product, Order, etc.) also duplicate these fields. This means every model is ~10 lines of boilerplate that Entity already provides. Not urgent — the current pattern is explicit and consistent — but if a new timestamp field is needed system-wide (e.g., `archivedAt`), it has to be added to 43 files instead of 1.
+Evaluated in DESIGN-PROPOSALS.md. Decision: keep the duplication. It's mechanical, harmless at this scale, and avoids indirection. Entity class remains available if revisited later.
 
-### No runtime validation
+### ~~No runtime validation~~ — RESOLVED (Decision 2: Zod)
 
-Constructors accept `Partial<T>` and default everything to null/empty. There's no validation — you can create a Filter with `operator: 'between'` and no `valueTo`, a FinancialTerm with `amount: 0` and `currency: null`, a Handshake with no parties. This is fine for the current "models as vocabulary" phase, but the MCP layer will need validation rules per model. Worth designing as a trait (Validatable exists but isn't implemented on any model) or as MCP-layer middleware rather than baking it into constructors.
+Zod schemas will be co-located with models, validated at boundaries (MCP/API), not in constructors. Schemas double as MCP tool input definitions. `z.infer<>` keeps types in sync automatically. See DESIGN-PROPOSALS.md §2.
 
 ### ~~`generateHexColor` in utils is unused~~ — RESOLVED
 

@@ -16,7 +16,7 @@ Complete reference for every model in TokenBase. Organized by category with desc
 | `deletedAt` | `string \| null` | Soft-delete timestamp |
 | `updatedAt` | `string` | ISO timestamp, auto-set |
 
-**Use case:** Not used directly. Every storable model duplicates these fields rather than extending Entity (see IMPROVEMENTS.md #3).
+**Use case:** Not used directly. Every storable model duplicates these fields rather than extending Entity (Decision 1: stay as-is — see DESIGN-PROPOSALS.md §1).
 
 ---
 
@@ -982,6 +982,63 @@ Models that define how data is displayed and how users move through the applicat
 
 ---
 
+## Design Knowledge
+
+### BugPattern
+
+**`src/models/BugPattern.ts`** — Preventable issue captured for automatic rule generation. Links a recurring problem to the conditions that cause it and the rule that prevents it.
+
+**Collection:** `bug_patterns`
+**Use case:** Automatic detection — capture patterns of bugs so the system can generate rules to prevent recurrence.
+
+### DesignChoice
+
+**`src/models/DesignChoice.ts`** — Recorded design decision with scope, variants, and preference. Captures the context, options considered, and the chosen direction.
+
+**Collection:** `design_choices`
+**Use case:** Decision archaeology — why was this built this way? What alternatives were considered?
+
+### RuleOutcome
+
+**`src/models/RuleOutcome.ts`** — Evidence of a rule's real-world effect. Links a rule (DesignChoice or BugPattern) to what happened when it met reality.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `string` | UUID |
+| `ruleId` | `string` | The rule being tracked |
+| `ruleType` | `string` | `'design_choice'` or `'bug_pattern'` |
+| `outcomeType` | `OutcomeType` | followed, violated, prevented, recurred, overridden, retired |
+| `description` | `string \| null` | What happened |
+| `evidenceId` | `string \| null` | The improvement or task that triggered this outcome |
+| `evidenceType` | `string \| null` | Type of evidence entity |
+| `observedBy` | `string \| null` | Which device/agent observed this |
+| `metadata` | `Record<string, string>` | |
+| `createdAt` | `string` | ISO timestamp |
+
+**OutcomeType values:**
+- `followed` — agent/human followed the rule → effectiveness rises
+- `violated` — rule was ignored or contradicted → effectiveness drops
+- `prevented` — rule prevented a known problem → effectiveness rises
+- `recurred` — the problem the rule addresses happened again → effectiveness drops
+- `overridden` — rule was explicitly superseded → lifecycle ends
+- `retired` — rule no longer applies → lifecycle ends
+
+**Collection:** `rule_outcomes`
+**Use case:** Rule effectiveness tracking — did agents follow rules? Did problems recur? Feeds back into rule confidence scores.
+
+---
+
+## Cost & Validity
+
+### Bandwidth
+
+**`src/models/Bandwidth.ts`** — Predicted processing cost for an entity before execution, paired with actual observed cost after.
+
+**Collection:** `bandwidths`
+**Use case:** Cost prediction and calibration — estimate resource consumption before execution, measure after, improve future predictions.
+
+---
+
 ## Compound Models
 
 Domain-specific compositions that combine primitives for the commerce/POS domain. Located in `src/compound/`.
@@ -1225,10 +1282,10 @@ Models fall into two categories based on whether they declare `static collection
 
 ## Statistics
 
-- **38 base model files** (models/, excluding index.ts and Traits.ts)
+- **39 base model files** (models/, excluding index.ts and Traits.ts)
 - **27 traits** (Traits.ts)
 - **8 compound models** (compound/)
 - **27+ nested types** (exported from parent files: FlowAgent, NavigationNode, StyleField, MapNode, QueueItem, LogEntry, etc.)
-- **30 storable models** (declare `static collection`)
+- **31 storable models** (declare `static collection`)
 - **8 embeddable models** (no `static collection` — nested inside parent documents)
 - **100+ total exported types/classes**
