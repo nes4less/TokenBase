@@ -158,9 +158,9 @@ Phase 1: Stabilize (NOW)
 ├── ✅ Models locked (35 base + 27 traits)
 ├── ✅ Compound models separated
 ├── ✅ INVENTORY.md — complete model list
-├── 📋 MODELS.md — full contextual docs with tests/use cases
-├── 📋 Instruction set — composition recipes
-└── 📋 MCP architecture doc
+├── ✅ MODELS.md — full contextual docs with descriptions/use cases
+├── ✅ Instruction set — composition recipes (INSTRUCTIONS.md)
+└── ✅ MCP architecture — resolved: instruction-driven, not generation-engine (see Key Design Decisions)
 
 Phase 2: Build Token Remote (NEXT)
 ├── Use kit vocabulary for all new features
@@ -207,6 +207,10 @@ Phase 5: Re-abstract Everything
 | Metadata | Self-classifying entries | Every piece of data declares: primary, meta, extended, derived, or system. No guessing. |
 | Compound models | Separate from base | Base models are primitives. Compounds are recipes. Different layer. |
 | What's a base model | If it can't be composed from existing primitives | Only add when composition fails. If it can be composed, document the recipe instead. |
+| Typeable + Context | Both — stamped and assembled | Context implements Typeable (assembled identity), but standalone Typeable trait remains for direct classification (stamped identity). A model can be classified either way. Stamped = intrinsic identity. Assembled = contextual identity that may differ by where the entity appears. |
+| Trait composition | Emergent patterns with Validity scoring | No hard constraints on which traits a model can mix. Common patterns emerge naturally and are documented with Validity (confidence/likelihood). Outliers can deviate — the system doesn't block them, it makes the deviation visible. Most recipes are tacos; some are choco tacos. |
+| MCP architecture | Instruction-driven, not generation-engine | The MCP server reads recipes (Instructions) to determine capabilities. Scoping = which recipes are in scope for this user/role. No complex code generation layer — just recipe lookup from the Instruction Set. |
+| MCP guardrails | Structural absence, not runtime enforcement | Scoped MCP instances are generated containing only the models/tools/instructions for that role. Guardrails aren't locks — the unauthorized capabilities simply don't exist in that instance. No ACL to bypass, no elevation path, no attack surface. |
 
 ---
 
@@ -214,10 +218,8 @@ Phase 5: Re-abstract Everything
 
 1. **Language design** — what does the TokenBase language look like? How does the type system map to compilation targets? (LANGUAGE.md)
 2. **Database** — what persistence engine serves the language natively? (Blocked on #1)
-3. **MCP generation** — what's the compilation step from master → scoped? Template engine? AST transformation? Code generation?
-4. **Key management** — where do Handshake keys live? HSM? Per-user encrypted vault? Ephemeral?
-5. **Typeable + Context** — does Typeable live on Context (making Context the universal identity card) or is it a standalone root? (Design session needed)
-6. **Trait composition** — in the language, are traits mixins, protocols, or something else? How does the compiler enforce trait requirements?
+3. **MCP generation mechanics** — given the instruction-driven architecture, what's the actual compilation step from master recipe book → scoped instance? Template engine? AST subset? (Unblocked by Instruction Set — answer should emerge from recipe structure)
+4. **Key management** — where do Handshake keys live? HSM? Per-user encrypted vault? Ephemeral? (Tied to security layer design)
 
 ---
 
