@@ -92,9 +92,24 @@
 | Timecard | Workforce | Work session record (clock in/out, corrections) | GameroomKit |
 | Unit | Commerce | Individual instance of a product (inventory item) | CashierFu-Kit |
 
+## Architecture Layers (Phase 2)
+
+| Layer | Files | Location | Purpose |
+|---|---|---|---|
+| Zod Schemas | 48 `.schema.ts` + `shared.ts` + `index.ts` | `src/schemas/` | Runtime validation at MCP/API boundaries |
+| MCP | `types.ts`, `master.ts`, `generate.ts`, `serialize.ts`, `registry.ts`, `transport.ts`, `index.ts` | `src/mcp/` | Master manifest, scoped generation, registry, HTTP transport |
+| Security | `types.ts`, `encryption.ts`, `commitments.ts`, `KeyVault.ts`, `key-lifecycle.ts`, `proofs/` | `src/security/` | X25519 key agreement, HKDF, XChaCha20/AES-256, hash commitments, IProofProvider |
+| Data | `types.ts`, `memory-adapter.ts`, `supabase-adapter.ts`, `logging-adapter.ts`, `scoped-adapter.ts` | `src/data/` | IDataService interface, InMemory/Supabase adapters, auto-logging, scope enforcement |
+| Integration | `types.ts`, `mcp-bridge.ts`, `schema-registry.ts`, `secure-data-service.ts` | `src/integration/` | MCPDataBridge (auth+routing), SchemaRegistry (validation), SecureDataService (transparent encryption) |
+| Tests | 5 test files | `tests/` | Smoke tests: schemas, encryption, data service, MCP, key lifecycle |
+
 ## Totals
 
 - **39 base model files** (41 including Traits.ts and index.ts)
+- **1 security model** (KeyVault)
 - **27 trait interfaces**
 - **8 compound models**
-- **100+ exported classes, types, and enums total**
+- **48 Zod schemas** (1 per model + compounds + KeyVault)
+- **5 architecture layers** (schemas, MCP, security, data, integration)
+- **64 smoke tests** across 5 test files
+- **130+ exported classes, types, and enums total**

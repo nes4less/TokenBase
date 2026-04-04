@@ -1039,6 +1039,30 @@ Models that define how data is displayed and how users move through the applicat
 
 ---
 
+## Security
+
+### KeyVault
+
+**`src/security/KeyVault.ts`** — Per-scope encryption key store. Holds the encrypted master key for a scope, encrypted with the Handshake-derived shared secret.
+
+**Collection:** `key_vaults`
+**Use case:** Stores encrypted scope keys. When a Handshake breaks, the shared secret is unrecoverable, making the vault's `encryptedMasterKey` undecryptable. The vault record can then be deleted — the data it protected is unreadable.
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `id` | `string` | UUID |
+| `scopeId` | `string` | Org/project/environment ID this vault protects |
+| `encryptedMasterKey` | `string` | Scope master key encrypted with Handshake-derived key (base64) |
+| `keyFingerprint` | `string` | SHA-256 fingerprint of the current key |
+| `algorithm` | `KeyAlgorithm` | `'xchacha20-poly1305'` or `'aes-256-gcm'` |
+| `rotations` | `KeyRotation[]` | Append-only rotation history |
+| `createdAt` | `string` | ISO timestamp |
+| `updatedAt` | `string` | ISO timestamp |
+
+**Relationships:** Created by the `KeyLifecycleManager` when a Handshake is approved. Destroyed (soft-deleted) when a Handshake breaks. Referenced by the `SecureDataService` for field-level encryption key resolution.
+
+---
+
 ## Compound Models
 
 Domain-specific compositions that combine primitives for the commerce/POS domain. Located in `src/compound/`.
@@ -1283,9 +1307,10 @@ Models fall into two categories based on whether they declare `static collection
 ## Statistics
 
 - **39 base model files** (models/, excluding index.ts and Traits.ts)
+- **1 security model** (security/KeyVault.ts)
 - **27 traits** (Traits.ts)
 - **8 compound models** (compound/)
 - **27+ nested types** (exported from parent files: FlowAgent, NavigationNode, StyleField, MapNode, QueueItem, LogEntry, etc.)
-- **31 storable models** (declare `static collection`)
+- **32 storable models** (declare `static collection` — 31 base + KeyVault)
 - **8 embeddable models** (no `static collection` — nested inside parent documents)
 - **100+ total exported types/classes**

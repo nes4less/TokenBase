@@ -30,6 +30,10 @@ Removed from `src/utils/index.ts`. Was dead code — Tag and Style use hardcoded
 
 Investigated: the mix is intentional and correct. `??` (nullish coalescing) is used for numbers and booleans where `0`/`false` are valid values (e.g., `amount ?? 0`, `taxable ?? true`). `||` (logical OR) is used for strings and null-defaulting where any falsy value should trigger the default. Every model follows this pattern consistently.
 
-### `Validatable` and `Interchangeable` traits are defined but unimplemented
+### `Validatable` and `Interchangeable` traits are defined but unimplemented — PARKED
 
-Both exist in Traits.ts with full field definitions but no model implements either. They're forward-designed for the MCP/validation layer. Annotated in MODELS.md as "designed, not yet implemented by any model." Not dead code — they define the contract for future work.
+Both exist in Traits.ts with full field definitions but no model implements either. They're forward-designed for the MCP/validation layer. Annotated in MODELS.md as "designed, not yet implemented by any model." Decision: leave as forward-designed. No model needs them yet — they'll be implemented when a concrete use case arrives.
+
+### Smoke tests need full coverage expansion
+
+64 smoke tests exist across 5 files covering schemas, encryption round-trips, data service CRUD, MCP generation/registry/bridge/transport, and key lifecycle. These cover the happy path. Full coverage needed for: edge cases, concurrent access, subscription lifecycle, error recovery, large payloads, algorithm switching.

@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "test": "node --import tsx --test tests/*.test.ts"
   },
   "files": [
     "dist"
@@ -15,6 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^25.5.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.5.0"
   },
   "dependencies": {
