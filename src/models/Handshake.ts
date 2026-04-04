@@ -1,11 +1,16 @@
 import { MetadataEntry } from './Traits'
 import { generateDateString, generateUUID } from '../utils'
+import type { KeyAlgorithm } from '../security/types'
 
 /**
- * Handshake — mutual agreement protocol.
+ * Handshake — mutual agreement protocol with key agreement.
  *
  * Two or more parties must acknowledge/approve before proceeding.
  * Proposals, approvals, rejections, counters.
+ *
+ * When approved, ephemeral key pairs establish a shared secret via ECDH.
+ * The shared secret derives scope-level encryption keys through HKDF.
+ * When broken, private keys are deleted — shared secret is unrecoverable.
  */
 
 export type HandshakeStatus = 'pending' | 'approved' | 'rejected' | 'countered' | 'expired' | 'cancelled'
@@ -35,6 +40,20 @@ export class Handshake {
   resolvedAt: string | null
   expiresAt: string | null
   metadata: MetadataEntry[]
+
+  // ─── Key Agreement Fields (Phase 2b) ───
+
+  /** Public key of the initiator (ephemeral, per-handshake, base64). */
+  initiatorPublicKey: string | null
+  /** Public keys of each party (map: partyId → base64-encoded public key). */
+  partyPublicKeys: Record<string, string>
+  /** SHA-256 fingerprint of the derived shared key. */
+  keyFingerprint: string | null
+  /** Encryption algorithm for this handshake's scope. */
+  keyAlgorithm: KeyAlgorithm
+  /** When the derived key was last rotated. */
+  keyRotatedAt: string | null
+
   constructor(data?: Partial<Handshake>) {
     this.id = data?.id || generateUUID()
     this.action = data?.action || ''
@@ -52,5 +71,12 @@ export class Handshake {
     this.resolvedAt = data?.resolvedAt || null
     this.expiresAt = data?.expiresAt || null
     this.metadata = data?.metadata || []
+
+    // Key agreement
+    this.initiatorPublicKey = data?.initiatorPublicKey || null
+    this.partyPublicKeys = data?.partyPublicKeys || {}
+    this.keyFingerprint = data?.keyFingerprint || null
+    this.keyAlgorithm = data?.keyAlgorithm || 'xchacha20-poly1305'
+    this.keyRotatedAt = data?.keyRotatedAt || null
   }
 }

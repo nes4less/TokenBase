@@ -9,12 +9,19 @@
     "watch": "tsc --watch",
     "clean": "rm -rf dist"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^25.5.2",
     "typescript": "^5.5.0"
   },
   "dependencies": {
-    "uuid": "^11.1.0"
+    "@noble/ciphers": "^2.1.1",
+    "@noble/curves": "^2.0.1",
+    "@noble/hashes": "^2.0.1",
+    "uuid": "^11.1.0",
+    "zod": "^4.3.6"
   }
 }
