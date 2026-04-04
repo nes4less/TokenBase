@@ -1185,10 +1185,26 @@ MetadataEntry ← metadata ── (all models)
 
 ---
 
+## Deprecated / Renamed Models
+
+Models from predecessor projects that were absorbed or renamed in TokenBase.
+
+| Original | Current | What Happened |
+|---|---|---|
+| `Address` | *(removed)* | Address fields inlined on compound models (e.g., Business). Use `Addressable` trait for structured address fields, `Locatable` trait for geographic coordinates. No standalone Address model exists. |
+| `Barcode` (standalone file) | `Identifier` | Barcode is now a type exported from `Identifier.ts`. Identifier generalizes detection to any method: barcode, QR, RFID, SKU, label. |
+| `Catalog` | `Set` | Renamed. A catalog is a bounded, complete collection — that's what Set models. |
+| `Option` / `OptionGroup` | `Prompt` | Options became structured decision requests. `PromptOption` replaces `Option`. Methods: select, multiselect, input, confirm. |
+| `StatusChange` | `Log` | Status transitions absorbed into Log as `level: 'status'` entries. Log is the universal audit trail — field changes, status transitions, access events, system events. |
+| `GKStorable` | `Entity` | GameroomKit base class renamed. Same fields: id, timestamps, createdBy, soft-delete. |
+
+---
+
 ## Statistics
 
-- **35 base models** (models/)
+- **38 base model files** (models/, excluding index.ts and Traits.ts)
 - **27 traits** (Traits.ts)
 - **8 compound models** (compound/)
+- **27+ nested types** (exported from parent files: FlowAgent, NavigationNode, StyleField, MapNode, QueueItem, LogEntry, etc.)
 - **37 declared collections** (storable entities)
-- **70 total exported types/classes**
+- **100+ total exported types/classes**

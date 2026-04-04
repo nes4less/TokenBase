@@ -6,7 +6,7 @@ Shared foundation for TokenRemote, TokenSports, CashierFu, and future Token proj
 
 ## What's In Here
 
-- **34 base models** — the irreducible primitives (Entity, Context, Group, Scope, Function, View, Queue, Filter, Sort, Log, etc.)
+- **38 base models** — the irreducible primitives (Entity, Context, Group, Scope, Function, View, Queue, Filter, Sort, Log, Bandwidth, DesignChoice, BugPattern, Unifier, etc.)
 - **27 traits** — composable interfaces (Nameable, Statusable, Chargeable, Expirable, Locatable, Typeable, etc.)
 - **8 compound models** — domain-specific compositions from CashierFu/GameroomKit (Business, Order, Product, Till, etc.)
 - **utils/** — UUID generation, date strings
@@ -38,8 +38,8 @@ All base models, traits, and compound models are exported from the package root.
 | Category | Models |
 |---|---|
 | **Base** | Entity |
-| **Primitives** | Address, Image, Measurement, Note, Tag |
-| **Identity** | Barcode, Identifier |
+| **Primitives** | Image, Measurement, Note, Tag |
+| **Identity** | Identifier (includes Barcode) |
 | **Structure** | Context, Grid, Group, Map, Queue, Relationship, Scope, Set, Style, Thread, Unifier |
 | **Data Operations** | Filter, Log, Sort |
 | **Operations** | Async, Function, Handshake, Instruction, Interaction, Prompt, Protocol |
@@ -47,6 +47,8 @@ All base models, traits, and compound models are exported from the package root.
 | **Time** | TimeTerm (deadline, duration, buffer, sprint, etc.) |
 | **Views & Nav** | Navigation, View, ViewGroup, ViewState |
 | **Agent** | AgentFlow, Improvement |
+| **Design Knowledge** | BugPattern, DesignChoice |
+| **Cost & Validity** | Bandwidth |
 | **Compound** | Business, Container, Order, Product, Reader, Till, Timecard, Unit |
 
 ## Project Files

@@ -4,18 +4,16 @@
 
 ---
 
-## Implemented — Base Models (34 files in `src/models/`)
+## Implemented — Base Models (38 files in `src/models/`)
 
 | Model | Category | Purpose |
 |---|---|---|
 | Entity | Base | Universal base — id, timestamps, createdBy, soft-delete |
-| Address | Primitive | Physical location with contact details |
 | Image | Primitive | Visual asset with blurhash placeholder |
 | Measurement | Primitive | Physical dimensions and weight |
 | Note | Primitive | Polymorphic annotation on any entity |
 | Tag | Primitive | Categorization tag with color |
-| Barcode | Identity | Machine-readable identifier with symbology type (in Identifier.ts) |
-| Identifier | Identity | Abstract detection — barcode, QR, RFID, SKU, label |
+| Identifier | Identity | Abstract detection — barcode, QR, RFID, SKU, label (includes Barcode type + BarcodeType enum) |
 | Context | Structure | Display, scoping, and presentation metadata |
 | Grid | Structure | Spatial layout system (POS buttons, warehouse map) |
 | Group | Structure | Declares that things belong together |
@@ -45,6 +43,9 @@
 | ViewState | Views & Nav | Runtime snapshot of a View's condition — selected, scroll, loading, error |
 | AgentFlow | Agent | Processing pipeline composed of agents |
 | Improvement | Agent | Data moving through refinement pipeline (raw → rule) |
+| Bandwidth | Cost & Validity | Predicted processing cost for an entity before execution |
+| BugPattern | Design Knowledge | Preventable issue captured for automatic rule generation |
+| DesignChoice | Design Knowledge | Recorded design decision with scope, variants, and preference |
 
 ## Implemented — Traits (27 interfaces in `Traits.ts`)
 
@@ -92,7 +93,7 @@
 
 ## Totals
 
-- **34 base model files** (37 including Entity, Traits, index)
+- **38 base model files** (40 including Traits.ts and index.ts)
 - **27 trait interfaces**
 - **8 compound models**
 - **100+ exported classes, types, and enums total**

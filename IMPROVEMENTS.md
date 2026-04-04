@@ -10,9 +10,9 @@ Some models have `static collection: string = 'collectionName'` (e.g., Group, Un
 
 **Models missing `static collection`:** Entity, Filter, Identifier, Image, Log, Measurement, Sort, Tag
 
-### Model count drift in KIT-PLAN.md
+### ~~Model count drift in KIT-PLAN.md~~ — RESOLVED
 
-KIT-PLAN references "34 base + 27 traits" but actual count is 35 base models (Unifier was undercounted). The Phase 1 checklist and architecture diagram both carry the stale number. Minor, but compounds across docs if not caught.
+All docs now standardized to **38 base model files**. The drift was caused by undercounting (Bandwidth, BugPattern, DesignChoice, Unifier were missing from various lists) and ghost entries (Address listed but no file existed, Barcode listed separately but lives in Identifier.ts). Fixed across README, INVENTORY, SCOPE-MODELS, MODELS, and KIT-PLAN.
 
 ### Compound models don't extend Entity
 

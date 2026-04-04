@@ -45,7 +45,6 @@
 
 | Class | Purpose | Origin |
 |---|---|---|
-| `Address` | Physical location with contact details | GameroomKit + CashierFu |
 | `Image` | Visual asset with blurhash placeholder | CashierFu-Kit + GameroomKit |
 | `Note` | Polymorphic annotation on any entity | GameroomKit GKNote (2018) |
 | `Tag` | Categorization tag with color | CashierFu-Kit + GameroomKit |
@@ -54,9 +53,9 @@
 
 | Class / Type | Purpose | Origin |
 |---|---|---|
-| `Barcode` | Machine-readable identifier with symbology type | CashierFu-Kit + GameroomKit |
-| `BarcodeType` | Symbology types (UPC_A, QR, EAN13, etc.) | CashierFu-Kit + GameroomKit |
 | `Identifier` | Abstract detection — barcode, QR, RFID, SKU, label | TokenBase |
+| `Barcode` | Machine-readable identifier with symbology type (exported from `Identifier.ts`) | CashierFu-Kit + GameroomKit |
+| `BarcodeType` | Symbology types (UPC_A, QR, EAN13, etc.) (exported from `Identifier.ts`) | CashierFu-Kit + GameroomKit |
 
 ## Structure & Topology
 
@@ -66,15 +65,15 @@
 | `Group` | Declares that things belong together | TokenBase |
 | `Map` | Topology — positions entities in orbital layers | TokenBase |
 | `MapNode` | A positioned entity within a map | TokenBase |
-| `Dimensions` | Physical measurements (width, height, depth, weight) | CashierFu-Kit |
-| `Measure<U>` | Numeric value + unit pair (generic) | CashierFu-Kit |
+| `Dimensions` | Physical measurements (width, height, depth, weight) (exported from `Measurement.ts`) | CashierFu-Kit |
+| `Measure<U>` | Numeric value + unit pair (generic) (exported from `Measurement.ts`) | CashierFu-Kit |
 | `Queue` | Ordered waiting line — FIFO/LIFO/priority | TokenBase |
 | `QueueItem` | Single item in a queue | TokenBase |
 | `Relationship` | Typed edge between two entities | TokenBase |
 | `Scope` | Downstream effects — hierarchy, regional metadata | TokenBase |
 | `Set` | Bounded, complete collection within a scope | TokenBase |
 | `Style` | Presentation template — maps model fields to output slots | TokenBase |
-| `StyleField` | Maps a model field to a formatted output slot | TokenBase |
+| `StyleField` | Maps a model field to a formatted output slot (nested in `Style.ts`) | TokenBase |
 | `Thread` | Conversation chain — owns messages, participants, state | TokenBase |
 | `Unifier` | Defines what makes a variant distinct from siblings | TokenBase |
 
@@ -134,7 +133,7 @@
 | Class / Type | Purpose | Origin |
 |---|---|---|
 | `Navigation` | Navigation graph — nodes, edges, transition types | TokenBase |
-| `NavigationNode` | Single point in nav graph — target, label, icon, badge | TokenBase |
+| `NavigationNode` | Single point in nav graph — target, label, icon, badge (nested in `Navigation.ts`) | TokenBase |
 | `NavigationType` | stack, tab, modal, drawer, replace | TokenBase |
 | `View` | Saved perspective — Filter + Sort + Style + entity type | TokenBase |
 | `ViewGroup` | Ordered collection of Views — tabs, sections, grid, stack | TokenBase |
@@ -145,7 +144,7 @@
 | Class / Type | Purpose | Origin |
 |---|---|---|
 | `AgentFlow` | Processing pipeline composed of agents | TokenBase |
-| `FlowAgent` | Agent within a flow — role, gate, position | TokenBase |
+| `FlowAgent` | Agent within a flow — role, gate, position (nested in `AgentFlow.ts`) | TokenBase |
 | `Improvement` | Data moving through refinement pipeline (raw → rule) | TokenBase |
 
 ## Design Knowledge
@@ -192,19 +191,66 @@
 | `UnitStatus` | Timestamped unit lifecycle entry | CashierFu-Kit |
 | `Timecard` | Work session record (clock in/out, corrections) | GameroomKit GKTimecard (2018) |
 
+## Nested Types (exported from parent model files)
+
+These types are exported from their parent model files, not as standalone files. They are first-class exports available from the package root.
+
+| Type | Exported From | Purpose |
+|---|---|---|
+| `FlowAgent` | `AgentFlow.ts` | Agent within a flow — role, gate, position |
+| `NavigationNode` | `Navigation.ts` | Single point in nav graph — target, label, icon, badge |
+| `StyleField` | `Style.ts` | Maps a model field to a formatted output slot |
+| `MapNode` | `Map.ts` | A positioned entity within a map |
+| `QueueItem` | `Queue.ts` | Single item in a queue |
+| `LogEntry` | `Log.ts` | Single change record — who, what, from, to |
+| `FunctionParam` | `Function.ts` | Input or output slot on a Function |
+| `InstructionStep` | `Instruction.ts` | Single step — action, position, condition |
+| `ProtocolRule` | `Protocol.ts` | Single rule — subject, statement, enforcement |
+| `PromptOption` | `Prompt.ts` | Single option with label, value, price modifiers |
+| `ChoiceVariant` | `DesignChoice.ts` | One option considered for a design choice |
+| `CostMeasurement` | `Bandwidth.ts` | Actual observed cost after execution |
+| `OrderItem` | `Order.ts` (compound) | Line item snapshot at time of sale |
+| `OrderDiscount` | `Order.ts` (compound) | Discount applied to an order |
+| `OrderTax` | `Order.ts` (compound) | Tax applied to an order |
+| `OrderPayment` | `Order.ts` (compound) | Payment toward an order |
+| `Discount` | `Order.ts` (compound) | Reusable discount definition |
+| `Tax` | `Order.ts` (compound) | Reusable tax definition |
+| `UnitStatus` | `Unit.ts` (compound) | Timestamped unit lifecycle entry |
+| `ContainerStatus` | `Container.ts` (compound) | Timestamped container state entry |
+| `TillCorrection` | `Till.ts` (compound) | Single adjustment to till balance |
+| `GridSlot` | `Grid.ts` | Single position within a grid |
+| `Barcode` | `Identifier.ts` | Machine-readable identifier with symbology type |
+| `Dimensions` | `Measurement.ts` | Physical measurements (width, height, depth, weight) |
+| `Measure<U>` | `Measurement.ts` | Numeric value + unit pair (generic) |
+| `MetadataEntry` | `Traits.ts` | Classified key/value entry |
+| `Validity` | `Bandwidth.ts` | Degree of certainty — likelihood, accuracy, consistency |
+
+## Deprecated / Renamed Models
+
+These models existed in predecessor projects but were absorbed or renamed in TokenBase.
+
+| Original | Current | Migration |
+|---|---|---|
+| `Address` | *(removed)* | Address fields live on compound models directly (e.g., Business). Use `Locatable` trait for geographic coordinates. `Addressable` trait for structured address fields. |
+| `Barcode` (standalone) | `Identifier` | Barcode is now a type exported from `Identifier.ts`. Identifier generalizes to any detection method (barcode, QR, RFID, SKU, label). |
+| `Catalog` | `Set` | Renamed. A catalog is a bounded, complete collection — that's what Set models. |
+| `Option` / `OptionGroup` | `Prompt` | Options became Prompt with methods (select, multiselect, input, confirm). PromptOption replaces Option. |
+| `StatusChange` | `Log` | Status changes absorbed into Log as `level: 'status'` entries. Log is the universal audit trail. |
+| `GKStorable` | `Entity` | GameroomKit base class renamed. Same fields (id, timestamps, createdBy, soft-delete). |
+
 ## Summary
 
-- **36 base model files** (52 classes + types in `src/models/`)
+- **38 base model files** (in `src/models/`, excluding `index.ts` and `Traits.ts`)
 - **27 trait interfaces** (in `Traits.ts`)
 - **8 compound model files** (19 classes + types in `src/compound/`)
-- **28 type aliases**
+- **27+ nested types** (exported from parent files, see table above)
 - **100+ total exports**
 
 ### Sources
 
 | Source | Models Contributed |
 |---|---|
-| GameroomKit (2017-2019) | Entity, original 15 traits, Address, Note, StatusChange → Log, Option → Prompt, Timecard |
-| CashierFu-Kit | Barcode, Catalog → Set, Container, Grid, Image, Measurement/Dimensions, Product, Tag, Unit |
+| GameroomKit (2017-2019) | Entity, original 15 traits, Note, StatusChange → Log, Option → Prompt, Timecard |
+| CashierFu-Kit | Container, Grid, Image, Measurement/Dimensions, Product, Tag, Unit |
 | CashierFu-Mobile / Desktop | Business, Discount, Order (+ Items/Discounts/Taxes/Payments), Reader, Tax, Till |
-| TokenBase (original) | Context, FinancialTerm, TimeTerm, Function, Group, Identifier, Improvement, AgentFlow, Map, Relationship, Scope, Style, Unifier, Async, Filter, Handshake, Instruction, Interaction, Log, Navigation, Prompt, Protocol, Queue, Set, Sort, Thread, View, ViewGroup, ViewState, DesignChoice, ChoiceVariant, BugPattern, Bandwidth, CostMeasurement, Validity, 12 new traits |
+| TokenBase (original) | Context, FinancialTerm, TimeTerm, Function, Group, Identifier (absorbs Barcode), Improvement, AgentFlow, Map, Relationship, Scope, Style, Unifier, Async, Filter, Handshake, Instruction, Interaction, Log, Navigation, Prompt (absorbs Option), Protocol, Queue, Set (absorbs Catalog), Sort, Thread, View, ViewGroup, ViewState, DesignChoice, BugPattern, Bandwidth, 12 new traits |
