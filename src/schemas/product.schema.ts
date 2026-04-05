@@ -2,9 +2,10 @@ import { z } from 'zod'
 import {
   EntityFieldsSchema, IdentifierEmbeddedSchema, ImageEmbeddedSchema,
   MetadatableSchema, TagEmbeddedSchema, DimensionsEmbeddedSchema,
+  ValidatableSchema, InterchangeableSchema,
 } from './shared'
 
-export const ProductCreateSchema = EntityFieldsSchema.merge(MetadatableSchema).extend({
+export const ProductCreateSchema = EntityFieldsSchema.merge(MetadatableSchema).merge(ValidatableSchema).merge(InterchangeableSchema).extend({
   identifiers: z.array(IdentifierEmbeddedSchema).optional(),
   catalogId: z.string().nullable().optional(),
   description: z.string().nullable().optional(),

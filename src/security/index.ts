@@ -12,3 +12,7 @@ export type { KeyExchangeInit, KeyExchangeComplete, DeriveOptions } from './key-
 
 // ─── Interfaces ───
 export type { IProofProvider } from './proofs/IProofProvider'
+
+// ─── Proof Providers ───
+export { ZKProofProvider } from './proofs/ZKProofProvider'
+export type { ZKProverConfig } from './proofs/ZKProofProvider'

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { EntityFieldsSchema, MetadatableSchema } from './shared'
+import { EntityFieldsSchema, MetadatableSchema, ValidatableSchema } from './shared'
 
 export const FinancialDirectionSchema = z.enum(['up', 'down'])
 export const MagnitudeTypeSchema = z.enum(['percentage', 'absolute'])
@@ -34,7 +34,7 @@ export const FinancialTermTypeSchema = z.enum([
   'hedge', 'investment',
 ])
 
-export const FinancialTermCreateSchema = EntityFieldsSchema.merge(MetadatableSchema).extend({
+export const FinancialTermCreateSchema = EntityFieldsSchema.merge(MetadatableSchema).merge(ValidatableSchema).extend({
   contextId: z.string().nullable().optional(),
   description: z.string().nullable().optional(),
   direction: FinancialDirectionSchema.optional(),

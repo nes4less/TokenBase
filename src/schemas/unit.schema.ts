@@ -2,6 +2,7 @@ import { z } from 'zod'
 import {
   EntityFieldsSchema, IdentifierEmbeddedSchema, ImageEmbeddedSchema,
   MetadatableSchema, TagEmbeddedSchema, DimensionsEmbeddedSchema,
+  ValidatableSchema, InterchangeableSchema,
 } from './shared'
 
 export const UnitStatusValueSchema = z.enum([
@@ -14,7 +15,7 @@ export const UnitStatusSchema = z.object({
   value: UnitStatusValueSchema.optional(),
 })
 
-export const UnitCreateSchema = EntityFieldsSchema.merge(MetadatableSchema).extend({
+export const UnitCreateSchema = EntityFieldsSchema.merge(MetadatableSchema).merge(ValidatableSchema).merge(InterchangeableSchema).extend({
   amount: z.number().optional(),
   identifiers: z.array(IdentifierEmbeddedSchema).optional(),
   catalogId: z.string().nullable().optional(),
