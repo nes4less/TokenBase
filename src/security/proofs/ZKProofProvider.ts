@@ -142,7 +142,7 @@ export class ZKProofProvider implements IProofProvider {
         throw new Error(`Prover service returned ${response.status}: ${text}`)
       }
 
-      const result: ProverResponse = await response.json()
+      const result = await response.json() as ProverResponse
 
       if (result.error) {
         throw new Error(`Prover error: ${result.error}`)
