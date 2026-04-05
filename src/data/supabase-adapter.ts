@@ -7,7 +7,7 @@
  *
  * Usage:
  *   import { createClient } from '@supabase/supabase-js'
- *   import { SupabaseDataService } from '@tokenbase/core'
+ *   import { SupabaseDataService } from '@cruba/core'
  *
  *   const supabase = createClient(url, key)
  *   const dataService = new SupabaseDataService(supabase)

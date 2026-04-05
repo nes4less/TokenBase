@@ -1,19 +1,60 @@
 {
-  "name": "@tokenbase/core",
+  "name": "@cruba/core",
   "version": "0.1.0",
-  "description": "Universal base models for the Token ecosystem",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "description": "Universal base models for the Token ecosystem — composable primitives for building any application",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
+    "build": "npm run build:cjs && npm run build:esm",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "watch": "tsc -p tsconfig.cjs.json --watch",
     "clean": "rm -rf dist",
-    "test": "node --import tsx --test tests/*.test.ts"
+    "test": "node --import tsx --test tests/*.test.ts",
+    "prepublishOnly": "npm run clean && npm run build && npm test"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nes4less/TokenBase.git"
+  },
+  "homepage": "https://github.com/nes4less/TokenBase#readme",
+  "bugs": {
+    "url": "https://github.com/nes4less/TokenBase/issues"
+  },
+  "keywords": [
+    "token",
+    "base-models",
+    "primitives",
+    "entity",
+    "composable",
+    "agent",
+    "schema"
+  ],
+  "author": "Chris Thompson",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "devDependencies": {
     "@types/node": "^25.5.2",
     "tsx": "^4.21.0",

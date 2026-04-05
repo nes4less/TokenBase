@@ -2,36 +2,28 @@
 
 Universal base models for the Token ecosystem.
 
-Shared foundation for TokenRemote, TokenSports, CashierFu, and future Token projects. TokenBase is an application construction system — composable primitives that AI agents use to build any app from the ground up.
-
-## What's In Here
-
-- **39 base models** — the irreducible primitives (Entity, Context, Group, Scope, Function, View, Queue, Filter, Sort, Log, Bandwidth, DesignChoice, BugPattern, RuleOutcome, Unifier, etc.)
-- **27 traits** — composable interfaces (Nameable, Statusable, Chargeable, Expirable, Locatable, Typeable, etc.)
-- **8 compound models** — domain-specific compositions from CashierFu/GameroomKit (Business, Order, Product, Till, etc.)
-- **utils/** — UUID generation, date strings
+Composable primitives that form the foundation for TokenRemote, TokenSports, CashierFu, and any application built on the Token stack. TokenBase is an application construction system — AI agents and developers use these models to build apps from the ground up.
 
 ## Install
 
 ```bash
-npm install tokenbase
+npm install @cruba/core
 ```
 
 ## Usage
 
 ```typescript
-import { Entity, Group, View, Filter, Sort, Style } from 'tokenbase'
+import { Entity, Group, View, Filter, Sort, Style } from '@cruba/core'
 ```
 
 All base models, traits, and compound models are exported from the package root.
 
-## Design Principles
+## What's Included
 
-- Flat models by default — inheritance reserved for security primitives (KeyVault extends Entity, planned)
-- Compose through references, not nesting
-- Context handles display/scoping, models handle logic
-- Every model gets base CRUD properties (id, timestamps, createdBy, soft-delete)
-- If it can be composed from existing primitives, it's a recipe — not a new base model
+- **39 base models** — irreducible primitives (Entity, Context, Group, Scope, Function, View, Queue, Filter, Sort, Log, Bandwidth, DesignChoice, BugPattern, RuleOutcome, Unifier, etc.)
+- **27 traits** — composable interfaces (Nameable, Statusable, Chargeable, Expirable, Locatable, Typeable, etc.)
+- **8 compound models** — domain-specific compositions (Business, Order, Product, Till, etc.)
+- **utils/** — UUID generation, date strings
 
 ## Model Categories
 
@@ -51,24 +43,22 @@ All base models, traits, and compound models are exported from the package root.
 | **Cost & Certainty** | Bandwidth |
 | **Compound** | Business, Container, Order, Product, Reader, Till, Timecard, Unit |
 
-## Project Files
+## Design Principles
 
-| File | Purpose |
-|---|---|
-| `GOALS.md` | End-state vision |
-| `KIT-PLAN.md` | Architecture, decisions, execution order |
-| `INVENTORY.md` | Complete model list with counts |
-| `MODELS.md` | Full contextual docs — descriptions, fields, relationships, use cases |
-| `SCOPE-MODELS.md` | Every exported class/interface/type with purpose and origin |
-| `INSTRUCTIONS.md` | Composition recipes — how to build apps from base models |
-| `DESIGN-PROPOSALS.md` | Phase 2+ architecture proposals and locked decisions |
-| `IMPROVEMENTS.md` | Append-only observations log |
-| `LANGUAGE.md` | Long-term language/compiler vision |
-| `AGENT-ARCHITECTURE.md` | Agent system architecture |
-| `RENDER-PROTOCOL.md` | Rendering protocol specification |
+- Flat models by default — inheritance reserved for security primitives
+- Compose through references, not nesting
+- Context handles display/scoping, models handle logic
+- Every model gets base CRUD properties (id, timestamps, createdBy, soft-delete)
+- If it can be composed from existing primitives, it's a recipe — not a new base model
 
 ## Build
 
 ```bash
-npm run build    # TypeScript → dist/
+npm run build       # TypeScript → dist/ (CJS + ESM)
+npm run test        # Run test suite
+npm run clean       # Remove dist/
 ```
+
+## License
+
+[MIT](LICENSE)
