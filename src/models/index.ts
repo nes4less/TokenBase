@@ -59,5 +59,11 @@ export * from './BugPattern'
 export * from './DesignChoice'
 export * from './RuleOutcome'
 
+// ─── Change & Versioning ───
+export * from './Delta'
+
+// ─── Magnitude & Range ───
+export * from './Scale'
+
 // ─── Cost & Certainty ───
 export * from './Bandwidth'

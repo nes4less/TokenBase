@@ -68,6 +68,12 @@ export * from './bug-pattern.schema'
 export * from './design-choice.schema'
 export * from './rule-outcome.schema'
 
+// ─── Change & Versioning ───
+export * from './delta.schema'
+
+// ─── Magnitude & Range ───
+export * from './scale.schema'
+
 // ─── Cost & Certainty ───
 export * from './bandwidth.schema'
 
