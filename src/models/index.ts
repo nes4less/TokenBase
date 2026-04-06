@@ -67,3 +67,21 @@ export * from './Scale'
 
 // ─── Cost & Certainty ───
 export * from './Bandwidth'
+
+// ─── Surface Models ───
+export * from './Comment'
+export * from './Content'
+export * from './DataFeed'
+export * from './Event'
+export * from './Flag'
+export * from './Location'
+export * from './Media'
+export * from './Message'
+export * from './Module'
+export * from './Notification'
+export * from './Organization'
+export * from './Person'
+export * from './Publication'
+export * from './Query'
+export * from './Range'
+export * from './PublicationSubscription'

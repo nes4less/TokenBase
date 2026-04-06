@@ -80,6 +80,24 @@ export * from './bandwidth.schema'
 // ─── Security ───
 export * from './key-vault.schema'
 
+// ─── Surface Models ───
+export * from './comment.schema'
+export * from './content.schema'
+export * from './data-feed.schema'
+export * from './event.schema'
+export * from './flag.schema'
+export * from './location.schema'
+export * from './media.schema'
+export * from './message.schema'
+export * from './module.schema'
+export * from './notification.schema'
+export * from './organization.schema'
+export * from './person.schema'
+export * from './publication.schema'
+export * from './query.schema'
+export * from './range.schema'
+export * from './publication-subscription.schema'
+
 // ─── Compound ───
 export * from './business.schema'
 export * from './container.schema'
